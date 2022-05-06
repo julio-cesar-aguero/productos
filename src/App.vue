@@ -3,6 +3,7 @@
     <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
+      <button @click="cerrarSesion">Cerrar sesion</button>
     </nav>
     <router-view />
   </div>
@@ -11,7 +12,7 @@
 import { mapActions } from "vuex";
 export default {
   methods: {
-    ...mapActions(['leerToken'])
+    ...mapActions(['leerToken','cerrarSesion'])
   },
   created(){
     this.leerToken();

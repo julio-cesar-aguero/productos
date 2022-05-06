@@ -40,6 +40,10 @@ export default new Vuex.Store({
       }else{
         commit('setToken', null)
       }
+    },
+    cerrarSesion({commit}){
+      localStorage.removeItem('token');
+      commit('setToken', null)
     }
   },
   modules: {
