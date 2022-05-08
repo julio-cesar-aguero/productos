@@ -1,10 +1,5 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-      <button @click="cerrarSesion">Cerrar sesion</button>
-    </nav>
     <router-view />
   </div>
 </template>
@@ -12,11 +7,12 @@
 import { mapActions } from "vuex";
 export default {
   methods: {
-    ...mapActions(['leerToken','cerrarSesion'])
+    ...mapActions(["leerToken"]),
   },
-  created(){
+  created() {
     this.leerToken();
-  }
+    
+  },
 };
 </script>
 <style>

@@ -1,11 +1,10 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <h1>Login</h1>
-    <form @submit.prevent="login(usuario)">
-      <input type="email" placeholder="email" v-model="usuario.email">
-      <input type="password" placeholder="pass" v-model="usuario.password">
-      <button type="submit">Acceder</button>
+  <div class="home container ">    
+    <h1>Iniciar Sesión</h1>
+    <form @submit.prevent="login(usuario)" class="w-50 p-3 container-fluid d-flex flex-column  justify-content-center align-items-center">
+      <input class="w-75 m-2 p-2" type="email" placeholder="email" v-model="usuario.email">
+      <input class="w-75 m-2 p-2" type="password" placeholder="pass" v-model="usuario.password">
+      <button class="w-25 m-2 p-2" type="submit">Acceder</button>
     </form>
     {{usuario}}
   </div>
@@ -24,6 +23,5 @@ export default {
   methods:{
     ...mapActions(['login'])
   }
- 
-}
+  }
 </script>
