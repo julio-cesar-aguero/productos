@@ -1,18 +1,23 @@
 <template>
   <div id="app">
+    <Navbar />
     <router-view />
   </div>
 </template>
 <script>
 import { mapActions } from "vuex";
+import Navbar from "./components/Navbar.vue";
 export default {
-  methods: {
-    ...mapActions(["leerToken"]),
-  },
-  created() {
-    this.leerToken();
-    
-  },
+    componets: {
+        Navbar: Navbar,
+    },
+    methods: {
+        ...mapActions(["leerToken"]),
+    },
+    created() {
+        this.leerToken();
+    },
+    components: { Navbar }
 };
 </script>
 <style>

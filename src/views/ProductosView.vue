@@ -1,9 +1,6 @@
 <template>
   <div class="about">
-    <br />
-    <button href="/" @click="cerrarSesion">Cerrar sesion</button>
-    <br />
-    <h1>{{ token }}</h1>
+    
     <div
       class="
         w-50
@@ -26,11 +23,46 @@
       />
       <button class="btn btn-primary">Enviar</button>
     </div>
-    <div class="productos bg-info w-100">
-      <h1>zoe</h1>
-      <ul id="example-1">
-        <li v-for="(item, index) in productos" :key="index">
-          {{ item }}
+    <div class="productos w-100 bg-light">
+      <div class="row m-3 p-2 w-80  bg-info text-white rounded">
+            <div class="col m-2 p-2 w-1 ">
+              ID:
+            </div>
+            <div class="col m-2 p-2 ">
+              NOMBRE:
+            </div>
+            <div class="col m-2 p-2 ">
+              DESCRIPCION:
+            </div>
+            <div class="col m-2 p-2 ">
+              IMAGEN:
+            </div>
+            <div class="col m-2 p-2 ">
+              OPCIONES:
+            </div>
+
+          </div>
+      <ul id="example-1" class="list-unstyled">
+        <li class="w-80 border-bottom border-darkrounded m-3" v-for="(item, index) in productos" :key="index">
+          <div class="row m-3 p-3 w-90 ">
+            <div class="col m-1 p-2 ">
+              {{index}}
+            </div>
+            <div class="col m-1 p-2 ">
+              {{item.name}}
+            </div>
+            <div class="col m-1 p-2 ">
+              {{item.description}}
+            </div>
+            <div class="col m-1 p-2 ">
+              imagen
+            </div>
+            <div class="col m-1  p-2 border-dark rounded">
+              <button class="btn btn-warning m-2 p-2">Actualizar</button>
+              <button class="btn btn-danger m-2 p-2">Eliminar</button>
+            </div>
+
+          </div>
         </li>
       </ul>
     </div>
