@@ -117,6 +117,30 @@ export default new Vuex.Store({
     },
 
     // Eliminar http://localhost:5009/api/admin/eliminar/?id=62752ff0d9180ddfb15901be
+    async eliminarProducto({commit}, id){
+      try {
+        const res = await fetch(
+          "https://jwt-api-rod.herokuapp.com/api/admin/eliminar/"+id,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "auth-token": localStorage.getItem("token"),
+            },
+          }
+        );
+        const dataDB = await res.json();
+        
+        //commit("setProductos", dataDB);
+        // Almacenar Productos
+        console.log("eliminado", dataDB);
+        //localStorage.setItem("productos", JSON.stringify(dataDB));
+        //router.push({name: 'home'})
+      } catch (error) {
+        console.log(error);
+      }
+
+    }
 
   },
   modules: {},
