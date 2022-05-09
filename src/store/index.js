@@ -88,6 +88,36 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
+     
+    // Nuevo Producto https://jwt-api-rod.herokuapp.com/api/admin/nuevo-producto/
+
+    async nuevoProducto({ commit }, producto) {
+      try {
+        const res = await fetch(
+          "https://jwt-api-rod.herokuapp.com/api/admin/nuevo-producto/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "auth-token": localStorage.getItem("token"),
+            },
+            body: JSON.stringify(producto),
+          }
+        );
+        const dataDB = await res.json();
+        
+        //commit("setProductos", dataDB);
+        // Almacenar Productos
+        console.log("NUEVO PRODUCTO", JSON.stringify(dataDB));
+        //localStorage.setItem("productos", JSON.stringify(dataDB));
+        //router.push({name: 'home'})
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    // Eliminar http://localhost:5009/api/admin/eliminar/?id=62752ff0d9180ddfb15901be
+
   },
   modules: {},
 });
