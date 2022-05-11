@@ -88,7 +88,7 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
-     
+
     // Nuevo Producto https://jwt-api-rod.herokuapp.com/api/admin/nuevo-producto/
 
     async nuevoProducto({ commit }, producto) {
@@ -105,22 +105,23 @@ export default new Vuex.Store({
           }
         );
         const dataDB = await res.json();
-        
+
         //commit("setProductos", dataDB);
         // Almacenar Productos
         console.log("NUEVO PRODUCTO", JSON.stringify(dataDB));
         //localStorage.setItem("productos", JSON.stringify(dataDB));
         //router.push({name: 'home'})
+        return
       } catch (error) {
         console.log(error);
       }
     },
 
     // Eliminar http://localhost:5009/api/admin/eliminar/?id=62752ff0d9180ddfb15901be
-    async eliminarProducto({commit}, id){
+    async eliminarProducto({ commit }, id) {
       try {
         const res = await fetch(
-          "https://jwt-api-rod.herokuapp.com/api/admin/eliminar/"+id,
+          "https://jwt-api-rod.herokuapp.com/api/admin/eliminar/" + id,
           {
             method: "GET",
             headers: {
@@ -130,7 +131,7 @@ export default new Vuex.Store({
           }
         );
         const dataDB = await res.json();
-        
+
         //commit("setProductos", dataDB);
         // Almacenar Productos
         console.log("eliminado", dataDB);
@@ -139,9 +140,35 @@ export default new Vuex.Store({
       } catch (error) {
         console.log(error);
       }
+    },
 
-    }
+    // Actualizar Articulo
 
+    async editarProducto({ commit },item) {
+      console.log(item)
+      try {
+        const res = await fetch(
+          "http://localhost:5010/api/admin/editar/" + item.id,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "auth-token": localStorage.getItem("token"),
+            },
+            body: JSON.stringify(item),
+          }
+        );
+        const dataDB = await res.json();
+
+        //commit("setProductos", dataDB);
+        // Almacenar Productos
+        console.log("editado", dataDB);
+        //localStorage.setItem("productos", JSON.stringify(dataDB));
+        //router.push({name: 'home'})
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   modules: {},
 });
