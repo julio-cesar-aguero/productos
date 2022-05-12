@@ -15,7 +15,11 @@ export default new Vuex.Store({
       state.token = payload;
     },
     setProductos(state, payload) {
-      state.productos = payload;
+      if(payload){
+        state.productos = payload;
+        console.log("mutation", state.productos); 
+      }
+      
     },
   },
   actions: {
@@ -104,20 +108,26 @@ export default new Vuex.Store({
             body: JSON.stringify(producto),
           }
         );
+        const data = this.state.productos;
+        console.log("data", data);
         const dataDB = await res.json();
-
-        //commit("setProductos", dataDB);
+        console.log("dataDB", dataDB);
+        data.push(dataDB);
+        console.log("data actual :)", data);
+        //dataDB = productos
+        commit("setProductos", data);
         // Almacenar Productos
         console.log("NUEVO PRODUCTO", JSON.stringify(dataDB));
         //localStorage.setItem("productos", JSON.stringify(dataDB));
         //router.push({name: 'home'})
-        return
+        return;
       } catch (error) {
         console.log(error);
       }
     },
 
-    // Eliminar http://localhost:5009/api/admin/eliminar/?id=62752ff0d9180ddfb15901be
+    // Eliminar Producto
+
     async eliminarProducto({ commit }, id) {
       try {
         const res = await fetch(
@@ -130,32 +140,43 @@ export default new Vuex.Store({
             },
           }
         );
-        const dataDB = await res.json();
 
-        //commit("setProductos", dataDB);
-        // Almacenar Productos
-        console.log("eliminado", dataDB);
-        //localStorage.setItem("productos", JSON.stringify(dataDB));
-        //router.push({name: 'home'})
+        //Respaldo lista Actual
+
+        const data = this.state.productos;
+
+        // Si no existe respuesta del servidor
+        const dataDB = await res.json();
+        if (!dataDB) {
+          return new Error("¡ Imposible Eliminar !");
+        }
+        // Eliminar producto de lista local
+        await data.splice(id, 1);
+        // Actualizar Lista
+        commit("setProductos", data);
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     },
 
     // Actualizar Articulo
 
-    async editarProducto({ commit },item) {
-      console.log(item)
+    async editarProducto({ commit }, productoUpdate) {
+      console.log("Vuex",productoUpdate);
+      const data = {
+        name: productoUpdate.name,
+        description: productoUpdate.description,
+      };
       try {
         const res = await fetch(
-          "http://localhost:5010/api/admin/editar/" + item.id,
+          "http://localhost:5010/api/admin/editar/" + productoUpdate.id,
           {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
               "auth-token": localStorage.getItem("token"),
             },
-            body: JSON.stringify(item),
+            body: JSON.stringify(data),
           }
         );
         const dataDB = await res.json();
@@ -169,6 +190,7 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
-  },
-  modules: {},
+  
+  
+  }
 });

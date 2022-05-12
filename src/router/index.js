@@ -14,6 +14,7 @@ const routes = [
   {
     path: "/login",
     name: "login",
+    meta: { rutaProtegida: false },
     component: () => import("../views/HomeView.vue"),
   },
 ];

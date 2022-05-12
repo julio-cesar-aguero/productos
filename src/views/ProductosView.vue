@@ -1,48 +1,157 @@
 <template>
-  <div class="about">
-    <h2 class="text-bold m-2">Registrar Producto</h2>
-    <div
+  <div class="about mb-5">
+    <form
       class="
         w-50
-        p-5
+        p-4
         container-fluid
         d-flex
         flex-column
         justify-content-center
         align-items-center
       "
+      @submit.prevent="agregarProducto"
     >
+      <h2 class="text-bold m-2">Registrar Producto</h2>
       <input
         class="form-control w-75 m-2 p-2"
         type="text"
         placeholder="Nombre"
         v-model="producto.name"
+        autofocus
+        required
+        minlength="5"
       />
-      <input
+      <textarea
         class="form-control w-75 m-2 p-2"
         type="text"
         placeholder="Descripcion"
         v-model="producto.description"
-      />
-      <button
-        class="btn btn-primary w-25 m-2 p-2"
-        @click.prevent="agregarProducto"
-      >
+        autofocus
+        required
+        minlength="30"
+      ></textarea>
+
+      <button class="btn btn-primary w-25 m-2 p-2" type="submit">
         Agregar
       </button>
-    </div>
-    <div class="mt-3" v-for="(item,index) of productos_local" :key="index">
-      <div class="alert alert-primary" role="alert">
-        <div class="d-flex justify-content-around">
+    </form>
 
-          <div class="d-flex justify-content-center align-items-center">
-            {{ index }}   -   {{item.name}}   -   {{item.description}}  -  {{item.imagen}}
-          </div>
-          <div>
-            <button class="btn btn-success m-2 p-2" @click="editarTarea(index)"> OK </button>
-            <button class="btn btn-danger m-2 p-2"> X </button>
-          </div>
-
+    <b-modal
+      id="modal-1"
+      title="Actualizar Producto"
+      class="w-100"
+      hide-footer
+      hide-header-close
+      :header-bg-variant="headerBgVariant"
+      :header-text-variant="headerTextVariant"
+      :body-bg-variant="bodyBgVariant"
+      :body-text-variant="bodyTextVariant"
+      :footer-bg-variant="footerBgVariant"
+      :footer-text-variant="footerTextVariant"
+    >
+      <form
+        class="
+          d-flex
+          w-100
+          flex-column
+          align-items-center
+          justify-content-center
+          p-2
+        "
+        @submit.prevent="editar(productoUpdate)"
+      >
+        <b-form-input
+          class="m-2 form-control p-3 text-center"
+          type="text"
+          placeholder="Nombre"
+          v-model="productoUpdate.name"
+        />
+        <b-form-input
+          class="m-2 form-control p-3 text-center"
+          type="text"
+          placeholder="Descripcion"
+          v-model="productoUpdate.description"
+        />
+        <div
+          class="buttons d-flex justify-content-center align-items-center p-4"
+        >
+          <b-button class="btn btn-danger m-2" @click="hideModal"
+            >Cancelar</b-button
+          >
+          <b-button class="btn btn-warning m-2" type="submit"
+            >Actualizar</b-button
+          >
+        </div>
+      </form>
+    </b-modal>
+    <div class="col-12 container d-flex flex-column align-items-center rounded">
+      <div
+        class="
+          col-12
+          d-flex
+          justify-content-center
+          align-items-center
+          bg-info
+          text-white
+          p-3
+        "
+      >
+        <div class="col-1">ID:</div>
+        <div class="col-3">NOMBRE:</div>
+        <div class="col-3">DESCRIPCION:</div>
+        <div class="col-4">IMAGEN:</div>
+        <div class="col-1 ">OPCIONES:</div>
+      </div>
+       <div
+        class="
+          col-12
+          d-flex
+          justify-content-center
+          align-items-center
+          text-dark
+          p-4
+          border border-top-0 border-info
+        "
+        v-for="(item, index) of productos"
+        :key="index"
+        v-show="!idProducto"
+      >
+        <div class="col-1" >
+          {{ index }}
+        </div>
+        <div class="col-3">
+          {{ item.name }}
+        </div>
+        <div class="col-3">
+          {{ item.description }}
+        </div>
+        <div class="col-4">
+          <div class="imagen">michi</div>
+        </div>
+        <div class="col-1 ">
+          <div
+              class="
+                col-1
+                d-flex
+                justify-content-center
+                align-items-center
+                data
+              "
+            >
+              <b-button
+                class="btn btn-warning m-1 p-2"
+                @click.prevent="showModal(index)"
+                ref="btnShow"
+                >Editar</b-button
+              >
+              <button
+                class="btn btn-danger m-1 p-2"
+                @click.prevent="eliminar(index, item._id)"
+              >
+                Eliminar
+              </button>
+            </div>
         </div>
       </div>
     </div>
@@ -54,13 +163,34 @@ import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      idProducto: 2,
+      variants: [
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "danger",
+        "info",
+        "light",
+        "dark",
+      ],
+      headerBgVariant: "dark",
+      headerTextVariant: "light",
+      bodyBgVariant: "light",
+      bodyTextVariant: "dark",
+      footerBgVariant: "warning",
+      footerTextVariant: "dark",
+      idProducto: false,
       editando: false,
       productos_local: [],
       producto: {
         name: "",
         description: "",
-        imagen: "",
+        estado: false,
+      },
+      productoUpdate: {
+        id: "",
+        name: "",
+        description: "",
       },
     };
   },
@@ -68,37 +198,94 @@ export default {
     ...mapState(["token", "productos"]),
   },
   methods: {
-    //@submit.prevent="nuevoProducto(producto)" ...mapActions(["datosProtegidos", "nuevoProducto","eliminarProducto","editarProducto", "cerrarSesion"]),
-    agregarProducto: function () {
-      console.log("diste click", this.producto.name, this.producto.description);
-      this.productos_local.push({
-        name: this.producto.name,
-        description: this.producto.description,
-      })
-      this.producto.name = "";
-      this.producto.description = "";
+    ...mapActions([
+      "datosProtegidos",
+      "nuevoProducto",
+      "eliminarProducto",
+      "editarProducto",
+      "cerrarSesion",
+    ]),
+    showModal(index) {
+      console.log("modal", index);
+      this.productoUpdate.id = this.productos_local[index]._id;
+      this.productoUpdate.name = this.productos_local[index].name;
+      this.productoUpdate.description = this.productos_local[index].description;
+      this.$root.$emit("bv::show::modal", "modal-1");
     },
-    editarTarea: function(index){
-      console.log("Editar", index)
-    }
-    ,
-    editar(item) {
-      console.log(item);
+    hideModal() {
+      this.$root.$emit("bv::hide::modal", "modal-1", "#btnShow");
+    },
+    toggleModal() {
+      this.$root.$emit("bv::toggle::modal", "modal-1", "#btnToggle");
+    },
+    agregarProducto: function () {
+     
+      //console.log("es vacio ?",.isEmptyObject())
+      try {
+        if (!this.producto) return new error();
+        const data = {
+          name: this.producto.name,
+          description: this.producto.description,
+        };
+        this.nuevoProducto(data);
+        this.producto.name = "";
+        this.producto.description = "";
+      } catch (error) {
+        console.log("error al agregar", error);
+      }
+    },
+    editar: function (producto) {
+      console.log("Editar", producto);
+      this.editarProducto(producto);
+      this.$root.$emit("bv::toggle::modal", "modal-1", "#btnToggle");
+      this.datosProtegidos();
+      this.productos_local = localStorage.getItem("productos");
+      this.productos_local = JSON.parse(this.productos_local);
+    },
+    guardarTarea: function (index) {
+      console.log("Editar", index);
+      this.idProducto = false;
+    },
+    eliminar(index, id) {
+      //console.log(index);
+      //console.log(this.productos_local[index]);
+      
+      this.eliminarProducto(id);
+      this.datosProtegidos();
+      this.productos_local = localStorage.getItem("productos");
+      this.productos_local = JSON.parse(this.productos_local);
+      
+    },
+  },
+  watch: {
+    productos: {
+      handler(old, newValue) {
+        if (old && newValue) {
+          console.log("Actualizado",newValue);
+          this.productos_local = this.productos;
+        }else{
+          console.log("Vacio");
+          this.productos_local = [];
+        }
+      },
+      deep: true,
     },
   },
   created() {
-    //this.datosProtegidos();
+    this.datosProtegidos();
+    this.productos_local = localStorage.getItem("productos");
+    this.productos_local = JSON.parse(this.productos_local);
   },
   mounted() {
-    /*:disabled="[editando ? '' : disabled]"
+    /*for (var i of this.productos) {
+    this.productos_local.push(i);
+    }*/
+    //this.productos_local = localStorage.getItem('productos');
+    // Se parsea para poder ser usado en js con JSON.parse :)
+  },
+  /*:disabled="[editando ? '' : disabled]"
   <div class="productos w-100 bg-light">
-      <div class="row d-flex justify-content-center align-items-center row m-1 p-1 w-90 bg-info text-white rounded">
-        <div class="col-1 pl-2">ID:</div>
-        <div class="col m-2 p-2">NOMBRE:</div>
-        <div class="col m-2 p-2">DESCRIPCION:</div>
-        <div class="col m-2 p-2">IMAGEN:</div>
-        <div class="col m-2 p-2">OPCIONES:</div>
-      </div>
+      
       <ul id="example-1" class="list-unstyled">
         
         <li
@@ -150,6 +337,5 @@ export default {
       </ul>
     </div>
   */
-  },
 };
 </script>
