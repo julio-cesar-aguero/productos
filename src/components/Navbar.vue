@@ -12,11 +12,16 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class=" d-flex justify-content-around collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link active" href="#"
           >Inicio</a
         >
+      </div>
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="#">
+          Usuario:
+        </a>
         <a v-if="token" class="nav-item nav-link" @click="cerrarSesion">Cerrar Sesión</a>
       </div>
     </div>

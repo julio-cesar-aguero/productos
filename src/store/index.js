@@ -15,11 +15,14 @@ export default new Vuex.Store({
       state.token = payload;
     },
     setProductos(state, payload) {
-      if(payload){
+      if (payload) {
         state.productos = payload;
-        console.log("mutation", state.productos); 
+        //console.log("mutation", state.productos);
       }
-      
+    },
+    deleteProducto(state, payload) {
+      state.productos.splice(state.productos.indexOf(state.activeNote), 1);
+      console.log(state.productos);
     },
   },
   actions: {
@@ -27,25 +30,40 @@ export default new Vuex.Store({
 
     async login({ commit }, usuario) {
       console.log(usuario);
-      try {
-        const res = await fetch(
-          "https://jwt-api-rod.herokuapp.com/api/user/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(usuario),
-          }
-        );
-        const resDB = await res.json();
+      //try {
+      const res = await fetch("http://localhost:5010/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(usuario),
+      })
+      
+       
 
+      const resDB = await res.json();
+      try{
+        console.log(resDB);
+        if (!resDB) {
+          throw new error("No hay respuesta del servidor :(");
+        }
         // Almacenar token
         commit("setToken", resDB.data.token);
         localStorage.setItem("token", resDB.data.token);
-        router.push({ name: "home" });
+        localStorage.setItem("userName", resDB.name);
+        localStorage.setItem("Rol", resDB.roles);
+        console.log('roles',resDB.roles)
+        if(resDB.roles === 'admin'){
+          router.push({ name: "home" });
+        }else{
+          router.push({ name: "home-user" });
+        }
+          
+        
+
+        
       } catch (error) {
-        console.log(error);
+        console.log("El Error", error.message);
       }
     },
 
@@ -72,22 +90,25 @@ export default new Vuex.Store({
 
     async datosProtegidos({ commit }) {
       try {
-        const res = await fetch(
-          "https://jwt-api-rod.herokuapp.com/api/admin/",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token": localStorage.getItem("token"),
-            },
-          }
-        );
+        const res = await fetch("http://localhost:5010/api/admin/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+        });
+        
+        // Almacenar Productos
+        
+        //Vuex
+
         const dataDB = await res.json();
         commit("setProductos", dataDB);
-        // Almacenar Productos
-        console.log("MAX", JSON.stringify(dataDB));
+        
+        //localStorage
+        
         localStorage.setItem("productos", JSON.stringify(dataDB));
-        //router.push({name: 'productos'})
+        
       } catch (error) {
         console.log(error);
       }
@@ -96,34 +117,57 @@ export default new Vuex.Store({
     // Nuevo Producto https://jwt-api-rod.herokuapp.com/api/admin/nuevo-producto/
 
     async nuevoProducto({ commit }, producto) {
+      var myHeaders = new Headers();
+
+      myHeaders.append("auth-token", localStorage.getItem("token"));
+
+      var formdata = new FormData();
+
+      formdata.append("name", producto.name);
+      formdata.append("description", producto.description);
+      formdata.append("imgProducto", producto.imgProducto);
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: formdata,
+        redirect: "follow",
+      };
+
+      fetch("http://localhost:5010/api/admin/nuevo-producto/", requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
+      /*console.log(producto)
       try {
         const res = await fetch(
-          "https://jwt-api-rod.herokuapp.com/api/admin/nuevo-producto/",
+          "http://localhost:5010/api/admin/nuevo-producto/",
           {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
+              'Accept': 'application/json',
+              "Content-Type": "multipart/form-data",
               "auth-token": localStorage.getItem("token"),
             },
-            body: JSON.stringify(producto),
+            body: producto,
           }
         );
-        const data = this.state.productos;
-        console.log("data", data);
-        const dataDB = await res.json();
-        console.log("dataDB", dataDB);
-        data.push(dataDB);
-        console.log("data actual :)", data);
+        //const data = this.state.productos;
+        //console.log("data", data);
+        //const dataDB = await res.json();
+        //console.log("dataDB", dataDB);
+        //data.push(dataDB);
+        //console.log("data actual :)", data);
         //dataDB = productos
-        commit("setProductos", data);
+        //commit("setProductos", data);
         // Almacenar Productos
-        console.log("NUEVO PRODUCTO", JSON.stringify(dataDB));
+        //console.log("NUEVO PRODUCTO", JSON.stringify(dataDB));
         //localStorage.setItem("productos", JSON.stringify(dataDB));
         //router.push({name: 'home'})
         return;
       } catch (error) {
         console.log(error);
-      }
+      }*/
     },
 
     // Eliminar Producto
@@ -131,7 +175,7 @@ export default new Vuex.Store({
     async eliminarProducto({ commit }, id) {
       try {
         const res = await fetch(
-          "https://jwt-api-rod.herokuapp.com/api/admin/eliminar/" + id,
+          "http://localhost:5010/api/admin/eliminar/" + id,
           {
             method: "GET",
             headers: {
@@ -152,8 +196,9 @@ export default new Vuex.Store({
         }
         // Eliminar producto de lista local
         await data.splice(id, 1);
+        commit("deleteProducto", id);
         // Actualizar Lista
-        commit("setProductos", data);
+        //commit("setProductos", data);
       } catch (error) {
         console.log(error.message);
       }
@@ -162,11 +207,13 @@ export default new Vuex.Store({
     // Actualizar Articulo
 
     async editarProducto({ commit }, productoUpdate) {
-      console.log("Vuex",productoUpdate);
+      console.log("Vuex", productoUpdate);
       const data = {
         name: productoUpdate.name,
         description: productoUpdate.description,
+        imgProducto: productoUpdate.imgProducto,
       };
+      console.log("Vuex data", productoUpdate);
       try {
         const res = await fetch(
           "http://localhost:5010/api/admin/editar/" + productoUpdate.id,
@@ -181,7 +228,7 @@ export default new Vuex.Store({
         );
         const dataDB = await res.json();
 
-        //commit("setProductos", dataDB);
+        //commit("deleteProducto", dataDB);
         // Almacenar Productos
         console.log("editado", dataDB);
         //localStorage.setItem("productos", JSON.stringify(dataDB));
@@ -190,7 +237,5 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
-  
-  
-  }
+  },
 });

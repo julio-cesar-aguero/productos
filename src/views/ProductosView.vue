@@ -32,7 +32,13 @@
         minlength="30"
       ></textarea>
 
-      <button class="btn btn-primary w-25 m-2 p-2" type="submit">
+      <input
+        class="form-control w-75"
+        type="file"
+        @change="handleFileUpload($event)"
+      />
+
+      <button class="btn btn-primary w-25 m-2 p-2" @click.prevent="agregarProducto">
         Agregar
       </button>
     </form>
@@ -101,9 +107,9 @@
         <div class="col-3">NOMBRE:</div>
         <div class="col-3">DESCRIPCION:</div>
         <div class="col-4">IMAGEN:</div>
-        <div class="col-1 ">OPCIONES:</div>
+        <div class="col-1">OPCIONES:</div>
       </div>
-       <div
+      <div
         class="
           col-12
           d-flex
@@ -117,7 +123,7 @@
         :key="index"
         v-show="!idProducto"
       >
-        <div class="col-1" >
+        <div class="col-1">
           {{ index }}
         </div>
         <div class="col-3">
@@ -126,32 +132,27 @@
         <div class="col-3">
           {{ item.description }}
         </div>
-        <div class="col-4">
-          <div class="imagen">michi</div>
+        <div class="col-4 w-5 h-5 rounded-circle">
+          <img class="w-5 h-5 rounded-circle" width="80" height="80" v-bind:src="'http://localhost:5010/img/productos/' + item.imgProducto" alt="imagen de producto">
+          
         </div>
-        <div class="col-1 ">
+        <div class="col-1">
           <div
-              class="
-                col-1
-                d-flex
-                justify-content-center
-                align-items-center
-                data
-              "
+            class="col-1 d-flex justify-content-center align-items-center data"
+          >
+            <b-button
+              class="btn btn-warning m-1 p-2"
+              @click.prevent="showModal(index)"
+              ref="btnShow"
+              >Editar</b-button
             >
-              <b-button
-                class="btn btn-warning m-1 p-2"
-                @click.prevent="showModal(index)"
-                ref="btnShow"
-                >Editar</b-button
-              >
-              <button
-                class="btn btn-danger m-1 p-2"
-                @click.prevent="eliminar(index, item._id)"
-              >
-                Eliminar
-              </button>
-            </div>
+            <button
+              class="btn btn-danger m-1 p-2"
+              @click.prevent="eliminar(index, item._id)"
+            >
+              Eliminar
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -185,12 +186,13 @@ export default {
       producto: {
         name: "",
         description: "",
-        estado: false,
+        imgProducto: "",
       },
       productoUpdate: {
         id: "",
         name: "",
         description: "",
+        imgProducto: "",
       },
     };
   },
@@ -205,6 +207,10 @@ export default {
       "editarProducto",
       "cerrarSesion",
     ]),
+    handleFileUpload(e) {
+      this.producto.imgProducto = e.target.files[0];
+      
+    },
     showModal(index) {
       console.log("modal", index);
       this.productoUpdate.id = this.productos_local[index]._id;
@@ -219,28 +225,23 @@ export default {
       this.$root.$emit("bv::toggle::modal", "modal-1", "#btnToggle");
     },
     agregarProducto: function () {
-     
       //console.log("es vacio ?",.isEmptyObject())
       try {
         if (!this.producto) return new error();
-        const data = {
-          name: this.producto.name,
-          description: this.producto.description,
-        };
-        this.nuevoProducto(data);
+        console.log("imagen frontend");
+
+        this.nuevoProducto(this.producto)
         this.producto.name = "";
         this.producto.description = "";
       } catch (error) {
         console.log("error al agregar", error);
       }
     },
-    editar: function (producto) {
-      console.log("Editar", producto);
-      this.editarProducto(producto);
+    editar(productoUpdate) {
+      console.log("Editar", productoUpdate);
+      this.editarProducto(productoUpdate);
       this.$root.$emit("bv::toggle::modal", "modal-1", "#btnToggle");
       this.datosProtegidos();
-      this.productos_local = localStorage.getItem("productos");
-      this.productos_local = JSON.parse(this.productos_local);
     },
     guardarTarea: function (index) {
       console.log("Editar", index);
@@ -249,21 +250,20 @@ export default {
     eliminar(index, id) {
       //console.log(index);
       //console.log(this.productos_local[index]);
-      
+
       this.eliminarProducto(id);
       this.datosProtegidos();
       this.productos_local = localStorage.getItem("productos");
       this.productos_local = JSON.parse(this.productos_local);
-      
     },
   },
   watch: {
     productos: {
       handler(old, newValue) {
-        if (old && newValue) {
-          console.log("Actualizado",newValue);
+        if (old ) {
+          console.log("Actualizado", newValue);
           this.productos_local = this.productos;
-        }else{
+        } else {
           console.log("Vacio");
           this.productos_local = [];
         }

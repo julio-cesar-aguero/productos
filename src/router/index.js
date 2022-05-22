@@ -17,6 +17,12 @@ const routes = [
     meta: { rutaProtegida: false },
     component: () => import("../views/HomeView.vue"),
   },
+  {
+    path: "/",
+    name: "home-user",
+    meta: { rutaProtegida: true },
+    component: () => import("../views/HomeUser.vue"),
+  },
 ];
 
 const router = new VueRouter({
