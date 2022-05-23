@@ -82,7 +82,10 @@ export default new Vuex.Store({
     cerrarSesion({ commit }) {
       localStorage.removeItem("token");
       localStorage.removeItem("productos");
+      localStorage.removeItem("Rol");
       commit("setToken", null);
+      console.log(router.currentRoute.name);
+      if(router.currentRoute.name != 'login')
       router.push({ name: "login" });
     },
 

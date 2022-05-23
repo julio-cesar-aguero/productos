@@ -3,24 +3,58 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import store from "../store";
 Vue.use(VueRouter);
-
+function guardMyrouteUser(to, from, next) {
+  var isAuthenticated = false;
+  //this is just an example. You will have to find a better or
+  // centralised way to handle you localstorage data handling
+  console.log('zoe',localStorage.getItem("Rol") );
+  if (localStorage.getItem("Rol") === 'user' && localStorage.getItem("token") != null) {
+    isAuthenticated = true;
+    //alert("Si")
+  } else {
+    //alert("no");
+    isAuthenticated = false;
+  }
+  if (isAuthenticated) {
+    next(); // allow to enter route
+  } else {
+    next('/login'); // go to '/login';
+  }
+}
+function guardMyrouteAdmin(to, from, next) {
+  var isAuthenticated = false;
+  //this is just an example. You will have to find a better or
+  // centralised way to handle you localstorage data handling
+  console.log('zoe',localStorage.getItem("Rol") );
+  if (localStorage.getItem("Rol") === 'admin' && localStorage.getItem("token") != null) {
+    isAuthenticated = true;
+    //alert("Si")
+  } else {
+    //alert("no");
+    isAuthenticated = false;
+  }
+  if (isAuthenticated) {
+    next(); // allow to enter route
+  } else {
+    next('/login'); // go to '/login';
+  }
+}
 const routes = [
   {
     path: "/",
     name: "home",
-    meta: { rutaProtegida: true },
+    beforeEnter: guardMyrouteAdmin,
     component: () => import("../views/ProductosView.vue"),
   },
   {
     path: "/login",
     name: "login",
-    meta: { rutaProtegida: false },
     component: () => import("../views/HomeView.vue"),
   },
   {
-    path: "/",
+    path: "/user",
     name: "home-user",
-    meta: { rutaProtegida: true },
+    beforeEnter: guardMyrouteUser,
     component: () => import("../views/HomeUser.vue"),
   },
 ];
@@ -31,6 +65,7 @@ const router = new VueRouter({
   routes,
 });
 
+/*
 router.beforeEach((to, from, next) => {
   const rutaEsProtegida = to.matched.some(
     (record) => record.meta.rutaProtegida
@@ -39,11 +74,11 @@ router.beforeEach((to, from, next) => {
     if (localStorage.getItem("token") === null) {
       console.log("token", localStorage.getItem("token"));
       next("/login");
-    } else {
+    } else if (localStorage.getItem("Rol") == "admin") {
       next();
     }
   } else {
     next();
   }
-});
+});*/
 export default router;

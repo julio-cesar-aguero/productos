@@ -42,7 +42,11 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["login"]),
+    ...mapActions(["login","cerrarSesion"]),
   },
+  mounted() {
+    console.log(`the component is now mounted.`)
+    this.cerrarSesion();
+  }
 };
 </script>
