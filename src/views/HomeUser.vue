@@ -62,16 +62,16 @@
         :key="index"
         class="col-12 text-dark"
       >
-        <div class="w-100 producto p-2">
-          <b-card :header="item.name" class="p-1">
-            <div class="d-flex justify-content-around contenido">
+        <div class="w-100 producto p-1">
+          <b-card :header="item.name" class="" footer="">
+            <div class="d-flex justify-content-around contenido p-1">
               <div
                 class="
                   inf
                   col-6
                   d-flex
                   align-items-center
-                  justify-content-center
+                  justify-content-between
                 "
               >
                 <b-card-text>
@@ -81,7 +81,7 @@
               <div class="rigth d-flex flex-column">
                 <div class="options col-12">
                   <b-button
-                    class="px-4 m-2"
+                    class="w-100"
                     @click.prevent="quitarCarro(item.id)"
                     variant="danger"
                   >
@@ -91,43 +91,47 @@
               </div>
             </div>
             <span>Cantidad:</span>
-            <div class="precio m-2 d-flex justify-content-center">
+            <div class="precio m-2 d-flex justify-content-center pb-1">
               <div
                 class="
-                  rounded-circle
+                  rounded
                   bg-success
                   col-2
+                  w-40
                   d-flex
                   justify-content-center
                   align-items-center
+                  text-white
                 "
               >
                 -
               </div>
-              <div class="col-2 p-1 cantidad">
-                <h2 class="title">1</h2>
+              <div class="col-4 cantidad">
+                <h2 class="title">{{item.cantidad}}</h2>
               </div>
 
               <div
                 class="
-                  rounded-circle
+                  rounded
                   bg-success
                   col-2
+                  w-40
                   d-flex
                   justify-content-center
                   align-items-center
+                  text-white
                 "
               >
                 +
               </div>
             </div>
-            <div class="col-12 bg-secondary text-white rounded d-flex">
-              <div class="precio m-2">
-                <h4>Precio: 50.00</h4>
+            <div class="col-12 rounded d-flex p-1 d-flex flex-column">
+              <div class="precio m-1">
+                <p>Precio: {{item.precio}}</p>
               </div>
 
-              <div class="precio m-2">
-                <p>Total: 100.00</p>
+              <div class="precio">
+                <h4>${{item.cantidad * item.precio}}</h4>
               </div>
             </div>
           </b-card>
@@ -158,6 +162,8 @@ export default {
         id: item._id,
         name: item.name,
         description: item.description,
+        cantidad: 1,
+        precio: 50.0,
       };
       this.agregarCarrito(articulo);
     },

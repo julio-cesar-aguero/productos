@@ -33,11 +33,22 @@ export default new Vuex.Store({
   },
   actions: {
     //carrito
-    agregarCarrito({ commit }, producto) {
-      /*state.carrito.hasOwnProperty(producto._id)
-      ? producto.cantidad = state.carrito[producto._id].cantidad + 1
-      : producto.cantidad = 1;*/
-      commit("setCarrito", producto);
+    agregarCarrito({ commit, state }, articulo) {
+      const artFind = state.carro.findIndex(function(item){
+        return item.id === articulo.id;
+    })
+
+    
+      if(artFind >= 0){
+        console.log('encontre',artFind)
+        console.log('quiero modificar',state.carro[artFind].cantidad)
+        state.carro[artFind].cantidad ++;
+      }
+      else{
+        commit("setCarrito", articulo);
+      }
+      
+      
     },
     quitarCarro({ commit }, id) {
       console.log(id);
