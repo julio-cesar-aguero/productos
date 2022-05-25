@@ -8,8 +8,9 @@ export default new Vuex.Store({
   state: {
     token: null,
     productos: [],
+    producto: {},
+    carro: [],
   },
-  getters: {},
   mutations: {
     setToken(state, payload) {
       state.token = payload;
@@ -17,15 +18,31 @@ export default new Vuex.Store({
     setProductos(state, payload) {
       if (payload) {
         state.productos = payload;
-        //console.log("mutation", state.productos);
       }
+    },
+    setCarrito(state, payload) {
+      state.carro.unshift(payload);
+    },
+    deleteCarrito(state, payload) {
+      var indice = state.carro.indexOf(payload); // obtenemos el indice
+      state.carro.splice(indice, 1); // 1 es la cantidad de elemento a eliminar
     },
     deleteProducto(state, payload) {
       state.productos.splice(state.productos.indexOf(state.activeNote), 1);
-      console.log(state.productos);
     },
   },
   actions: {
+    //carrito
+    agregarCarrito({ commit }, producto) {
+      /*state.carrito.hasOwnProperty(producto._id)
+      ? producto.cantidad = state.carrito[producto._id].cantidad + 1
+      : producto.cantidad = 1;*/
+      commit("setCarrito", producto);
+    },
+    quitarCarro({ commit }, id) {
+      console.log(id);
+      commit("deleteCarrito", id);
+    },
     //Login
 
     async login({ commit }, usuario) {
@@ -37,12 +54,11 @@ export default new Vuex.Store({
           "Content-Type": "application/json",
         },
         body: JSON.stringify(usuario),
-      })
-      
-       
+      });
 
       const resDB = await res.json();
-      try{
+
+      try {
         console.log(resDB);
         if (!resDB) {
           throw new error("No hay respuesta del servidor :(");
@@ -52,16 +68,12 @@ export default new Vuex.Store({
         localStorage.setItem("token", resDB.data.token);
         localStorage.setItem("userName", resDB.name);
         localStorage.setItem("Rol", resDB.roles);
-        console.log('roles',resDB.roles)
-        if(resDB.roles === 'admin'){
+        console.log("roles", resDB.roles);
+        if (resDB.roles === "admin") {
           router.push({ name: "home" });
-        }else{
+        } else {
           router.push({ name: "home-user" });
         }
-          
-        
-
-        
       } catch (error) {
         console.log("El Error", error.message);
       }
@@ -85,8 +97,7 @@ export default new Vuex.Store({
       localStorage.removeItem("Rol");
       commit("setToken", null);
       console.log(router.currentRoute.name);
-      if(router.currentRoute.name != 'login')
-      router.push({ name: "login" });
+      if (router.currentRoute.name != "login") router.push({ name: "login" });
     },
 
     //Solicitar Productos
@@ -100,18 +111,18 @@ export default new Vuex.Store({
             "auth-token": localStorage.getItem("token"),
           },
         });
-        
+
         // Almacenar Productos
-        
+
         //Vuex
 
         const dataDB = await res.json();
+        console.log(dataDB);
         commit("setProductos", dataDB);
-        
+
         //localStorage
-        
+
         localStorage.setItem("productos", JSON.stringify(dataDB));
-        
       } catch (error) {
         console.log(error);
       }
@@ -141,36 +152,6 @@ export default new Vuex.Store({
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
-      /*console.log(producto)
-      try {
-        const res = await fetch(
-          "http://localhost:5010/api/admin/nuevo-producto/",
-          {
-            method: "POST",
-            headers: {
-              'Accept': 'application/json',
-              "Content-Type": "multipart/form-data",
-              "auth-token": localStorage.getItem("token"),
-            },
-            body: producto,
-          }
-        );
-        //const data = this.state.productos;
-        //console.log("data", data);
-        //const dataDB = await res.json();
-        //console.log("dataDB", dataDB);
-        //data.push(dataDB);
-        //console.log("data actual :)", data);
-        //dataDB = productos
-        //commit("setProductos", data);
-        // Almacenar Productos
-        //console.log("NUEVO PRODUCTO", JSON.stringify(dataDB));
-        //localStorage.setItem("productos", JSON.stringify(dataDB));
-        //router.push({name: 'home'})
-        return;
-      } catch (error) {
-        console.log(error);
-      }*/
     },
 
     // Eliminar Producto

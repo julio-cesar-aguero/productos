@@ -33,7 +33,7 @@ import {mapState,mapActions } from "vuex";
 export default {
     name: 'Navbar',
     computed: {
-    ...mapState(["token"]),
+    ...mapState(["token","carrito"]),
     },
     methods: {
     ...mapActions(["cerrarSesion"]),
