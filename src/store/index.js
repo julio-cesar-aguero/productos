@@ -6,6 +6,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    user: {
+      name: ''
+    },
     token: null,
     productos: [],
     producto: {},
@@ -15,6 +18,10 @@ export default new Vuex.Store({
     setToken(state, payload) {
       state.token = payload;
     },
+    setUser(state, payload){
+      state.user.name = payload;
+    }
+    ,
     setProductos(state, payload) {
       if (payload) {
         state.productos = payload;
@@ -30,25 +37,42 @@ export default new Vuex.Store({
     deleteProducto(state, payload) {
       state.productos.splice(state.productos.indexOf(state.activeNote), 1);
     },
+    aumentarCarrito(state, payload){
+      //con inventario usar if(state.carro[payload].cantidad < cantidadTotal){state.carro[payload].cantidad++;}
+      state.carro[payload].cantidad++;
+    },
+    disminuirCarrito(state, payload){
+      if(state.carro[payload].cantidad>1){
+        state.carro[payload].cantidad--;
+      }
+    }
   },
   actions: {
-    //carrito
-    agregarCarrito({ commit, state }, articulo) {
-      const artFind = state.carro.findIndex(function(item){
-        return item.id === articulo.id;
-    })
+    //user
+    setUserAction({commit},user){
+      commit("setUser",user);
 
-    
-      if(artFind >= 0){
-        console.log('encontre',artFind)
-        console.log('quiero modificar',state.carro[artFind].cantidad)
-        state.carro[artFind].cantidad ++;
-      }
-      else{
+    },
+    //carrito
+    aumentarCarritoAction({commit}, id){
+      commit("aumentarCarrito",id);
+    },
+    disminuirCarritoAction({commit}, id){
+      commit("disminuirCarrito",id);
+    },
+    agregarCarrito({ commit, state }, articulo) {
+      const artFind = state.carro.findIndex(function (item) {
+        return item.id === articulo.id;
+      });
+
+      if (artFind >= 0) {
+        commit("aumentarCarrito", artFind);
+        //console.log("encontre", artFind);
+        //console.log("quiero modificar", state.carro[artFind].cantidad);
+        //state.carro[artFind].cantidad++;
+      } else {
         commit("setCarrito", articulo);
       }
-      
-      
     },
     quitarCarro({ commit }, id) {
       console.log(id);
@@ -68,7 +92,7 @@ export default new Vuex.Store({
       });
 
       const resDB = await res.json();
-
+      commit("setUser",resDB.name);
       try {
         console.log(resDB);
         if (!resDB) {
@@ -107,6 +131,8 @@ export default new Vuex.Store({
       localStorage.removeItem("productos");
       localStorage.removeItem("Rol");
       commit("setToken", null);
+      commit("setUser", null);
+
       console.log(router.currentRoute.name);
       if (router.currentRoute.name != "login") router.push({ name: "login" });
     },

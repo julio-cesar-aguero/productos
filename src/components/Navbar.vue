@@ -1,44 +1,37 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-    <a class="navbar-brand" href="#">Rod Select</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class=" d-flex justify-content-around collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="#"
-          >Inicio</a
-        >
-      </div>
-      <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="#">
-          Usuario:
-        </a>
-        <a v-if="token" class="nav-item nav-link" @click="cerrarSesion">Cerrar Sesión</a>
-      </div>
-    </div>
-  </nav>
+
+  <b-navbar toggleable type="secondary" variant="secondary">
+    <b-navbar-brand class="p-4" href="#">Rod Select</b-navbar-brand>
+
+    <b-navbar-toggle target="navbar-toggle-collapse">
+      <template #default="{ expanded }">
+        <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+        <b-icon v-else icon="chevron-bar-down"></b-icon>
+      </template>
+    </b-navbar-toggle>
+
+    <b-collapse id="navbar-toggle-collapse" is-nav>
+      <b-navbar-nav class="ml-auto text-dark">
+        <b-nav-item href="#">Link 1</b-nav-item>
+        <b-nav-item href="#">Link 2</b-nav-item>
+        <b-nav-item href="#" disabled>Disabled</b-nav-item>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
+
+
 </template>
 
 <script>
-import {mapState,mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
-    name: 'Navbar',
-    computed: {
-    ...mapState(["token","carrito"]),
-    },
-    methods: {
+  name: "Navbar",
+  computed: {
+    ...mapState(["token", "carrito", "user"]),
+  },
+  methods: {
     ...mapActions(["cerrarSesion"]),
   },
-
 };
 </script>
 
