@@ -57,6 +57,7 @@
 </template>
 
 <script>
+
   export default {
     data() {
       return {
@@ -64,6 +65,7 @@
         sliding: null
       }
     },
+   
     methods: {
       onSlideStart(slide) {
         this.sliding = true

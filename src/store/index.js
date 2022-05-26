@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     user: {
-      name: ''
+      name: "",
     },
     token: null,
     productos: [],
@@ -18,10 +18,9 @@ export default new Vuex.Store({
     setToken(state, payload) {
       state.token = payload;
     },
-    setUser(state, payload){
+    setUser(state, payload) {
       state.user.name = payload;
-    }
-    ,
+    },
     setProductos(state, payload) {
       if (payload) {
         state.productos = payload;
@@ -30,6 +29,10 @@ export default new Vuex.Store({
     setCarrito(state, payload) {
       state.carro.unshift(payload);
     },
+    vaciarCarrito(state){
+      state.carro = []
+    }
+    ,
     deleteCarrito(state, payload) {
       var indice = state.carro.indexOf(payload); // obtenemos el indice
       state.carro.splice(indice, 1); // 1 es la cantidad de elemento a eliminar
@@ -37,28 +40,37 @@ export default new Vuex.Store({
     deleteProducto(state, payload) {
       state.productos.splice(state.productos.indexOf(state.activeNote), 1);
     },
-    aumentarCarrito(state, payload){
+    aumentarCarrito(state, payload) {
       //con inventario usar if(state.carro[payload].cantidad < cantidadTotal){state.carro[payload].cantidad++;}
       state.carro[payload].cantidad++;
     },
-    disminuirCarrito(state, payload){
-      if(state.carro[payload].cantidad>1){
+    disminuirCarrito(state, payload) {
+      if (state.carro[payload].cantidad > 1) {
         state.carro[payload].cantidad--;
       }
-    }
+    },
   },
+  getters:{
+    totalCantidad(state){
+      return Object.values(state.carro).reduce((acc, {cantidad}) => acc + cantidad, 0);
+    },
+    totalPrecio(state){
+      return Object.values(state.carro).reduce((acc, {cantidad, precio}) => acc + cantidad * precio, 0);
+    }
+
+  }
+  ,
   actions: {
     //user
-    setUserAction({commit},user){
-      commit("setUser",user);
-
+    setUserAction({ commit }, user) {
+      commit("setUser", user);
     },
     //carrito
-    aumentarCarritoAction({commit}, id){
-      commit("aumentarCarrito",id);
+    aumentarCarritoAction({ commit }, id) {
+      commit("aumentarCarrito", id);
     },
-    disminuirCarritoAction({commit}, id){
-      commit("disminuirCarrito",id);
+    disminuirCarritoAction({ commit }, id) {
+      commit("disminuirCarrito", id);
     },
     agregarCarrito({ commit, state }, articulo) {
       const artFind = state.carro.findIndex(function (item) {
@@ -92,7 +104,7 @@ export default new Vuex.Store({
       });
 
       const resDB = await res.json();
-      commit("setUser",resDB.name);
+      commit("setUser", resDB.name);
       try {
         console.log(resDB);
         if (!resDB) {
@@ -249,11 +261,7 @@ export default new Vuex.Store({
         );
         const dataDB = await res.json();
 
-        //commit("deleteProducto", dataDB);
-        // Almacenar Productos
         console.log("editado", dataDB);
-        //localStorage.setItem("productos", JSON.stringify(dataDB));
-        //router.push({name: 'home'})
       } catch (error) {
         console.log(error);
       }
