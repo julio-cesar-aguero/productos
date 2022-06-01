@@ -216,6 +216,7 @@ export default {
       this.productoUpdate.id = this.productos_local[index]._id;
       this.productoUpdate.name = this.productos_local[index].name;
       this.productoUpdate.description = this.productos_local[index].description;
+      this.productoUpdate.imgProducto = this.productos_local[index].imgProducto;
       this.$root.$emit("bv::show::modal", "modal-1");
     },
     hideModal() {
@@ -227,6 +228,7 @@ export default {
     agregarProducto: function () {
       //console.log("es vacio ?",.isEmptyObject())
       try {
+        
         if (!this.producto) return new error();
         console.log("imagen frontend");
 
@@ -241,20 +243,16 @@ export default {
       console.log("Editar", productoUpdate);
       this.editarProducto(productoUpdate);
       this.$root.$emit("bv::toggle::modal", "modal-1", "#btnToggle");
-      this.datosProtegidos();
     },
     guardarTarea: function (index) {
       console.log("Editar", index);
       this.idProducto = false;
     },
     eliminar(index, id) {
-      //console.log(index);
-      //console.log(this.productos_local[index]);
+   
 
       this.eliminarProducto(id);
-      this.datosProtegidos();
-      this.productos_local = localStorage.getItem("productos");
-      this.productos_local = JSON.parse(this.productos_local);
+
     },
   },
   watch: {
@@ -273,8 +271,12 @@ export default {
   },
   created() {
     this.datosProtegidos();
+    if(localStorage.getItem("productos")){
+      console.log("cargando... productos..");
     this.productos_local = localStorage.getItem("productos");
     this.productos_local = JSON.parse(this.productos_local);
+    }
+    
   },
   mounted() {
     /*for (var i of this.productos) {

@@ -5,14 +5,14 @@
         class="container d-flex flex-column justify-content-start col-8 rounded"
       >
         <Carrusel class="w-100"></Carrusel>
-        <h1 class="title">Nuestro Productos</h1>
+        <h1 class="title">Nuestros Productos</h1>
         <b-container class="w-100 col-12 bv-example-row">
           <b-row cols="1" cols-md="2" cols-lg="3">
             <b-col v-for="(item, index) of productos" :key="index">
               <div class="w-100 m-1 producto pb-2">
                 <b-card
                   :title="item.name"
-                  img-src="https://picsum.photos/600/300/?image=25"
+                  :img-src="'http://localhost:5010/img/productos/' + item.imgProducto"
                   img-alt="Image"
                   img-top
                   tag="article"
@@ -20,8 +20,7 @@
                   class="w-100"
                 >
                   <b-card-text>
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
+                    {{item.description}}
                   </b-card-text>
 
                   <b-button
@@ -45,6 +44,7 @@
           d-flex
           flex-column
           m-1
+          p-5
           text-white
           rounded
           h-10

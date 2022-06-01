@@ -22,23 +22,41 @@ export default new Vuex.Store({
       state.user.name = payload;
     },
     setProductos(state, payload) {
+
       if (payload) {
         state.productos = payload;
       }
     },
+    setProducto(state, payload){
+
+    }
+    ,
+    updateProducto(state, payload){
+      const indice = state.productos.findIndex(function (item) {
+        return item._id === payload.id;
+      });
+      console.log("payload editar",payload)
+      console.log("producto",state.productos[indice])
+      state.productos[indice].name = payload.data.name;
+      state.productos[indice].description = payload.data.description;
+      state.productos[indice].imgProducto = payload.data.imgProducto;
+      console.log("mutation productos result" , state.productos[indice])
+
+    },
+    deleteProducto(state, payload){
+      var indice = state.productos.indexOf(payload); // obtenemos el indice
+      state.productos.splice(indice, 1); // 1 es la cantidad de elemento a eliminar
+    }
+    ,
     setCarrito(state, payload) {
       state.carro.unshift(payload);
     },
-    vaciarCarrito(state){
-      state.carro = []
-    }
-    ,
+    vaciarCarrito(state) {
+      state.carro = [];
+    },
     deleteCarrito(state, payload) {
       var indice = state.carro.indexOf(payload); // obtenemos el indice
       state.carro.splice(indice, 1); // 1 es la cantidad de elemento a eliminar
-    },
-    deleteProducto(state, payload) {
-      state.productos.splice(state.productos.indexOf(state.activeNote), 1);
     },
     aumentarCarrito(state, payload) {
       //con inventario usar if(state.carro[payload].cantidad < cantidadTotal){state.carro[payload].cantidad++;}
@@ -50,16 +68,23 @@ export default new Vuex.Store({
       }
     },
   },
-  getters:{
-    totalCantidad(state){
-      return Object.values(state.carro).reduce((acc, {cantidad}) => acc + cantidad, 0);
+  getters: {
+    leerProductos(){
+      
     },
-    totalPrecio(state){
-      return Object.values(state.carro).reduce((acc, {cantidad, precio}) => acc + cantidad * precio, 0);
-    }
-
-  }
-  ,
+    totalCantidad(state) {
+      return Object.values(state.carro).reduce(
+        (acc, { cantidad }) => acc + cantidad,
+        0
+      );
+    },
+    totalPrecio(state) {
+      return Object.values(state.carro).reduce(
+        (acc, { cantidad, precio }) => acc + cantidad * precio,
+        0
+      );
+    },
+  },
   actions: {
     //user
     setUserAction({ commit }, user) {
@@ -198,7 +223,7 @@ export default new Vuex.Store({
       };
 
       fetch("http://localhost:5010/api/admin/nuevo-producto/", requestOptions)
-        .then((response) => response.text())
+        .then((response) => response.json())
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
     },
@@ -220,7 +245,7 @@ export default new Vuex.Store({
 
         //Respaldo lista Actual
 
-        const data = this.state.productos;
+        //const data = this.state.productos;
 
         // Si no existe respuesta del servidor
         const dataDB = await res.json();
@@ -228,7 +253,7 @@ export default new Vuex.Store({
           return new Error("¡ Imposible Eliminar !");
         }
         // Eliminar producto de lista local
-        await data.splice(id, 1);
+        //await data.splice(id, 1);
         commit("deleteProducto", id);
         // Actualizar Lista
         //commit("setProductos", data);
@@ -260,8 +285,40 @@ export default new Vuex.Store({
           }
         );
         const dataDB = await res.json();
-
+        
         console.log("editado", dataDB);
+        if(dataDB.error === null){
+          commit("updateProducto",dataDB)
+        }else{
+          
+        }
+        
+
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async leerVentas({ commit }) {
+      try {
+        const res = await fetch("http://localhost:5010/api/user-ventas/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+        });
+
+        // Almacenar Productos
+
+        //Vuex
+
+        const dataDB = await res.json();
+        console.log(dataDB);
+        //commit("setProductos", dataDB);
+
+        //localStorage
+
+        //localStorage.setItem("productos", JSON.stringify(dataDB));
       } catch (error) {
         console.log(error);
       }

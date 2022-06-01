@@ -1,13 +1,13 @@
 <template>
   <div>
     <div>
-      <b-button  v-b-modal.modal-1 class="btn btn-danger"
+      <b-button v-b-modal.modal-1 class="btn btn-danger"
         >Finalizar Pedido</b-button
       >
 
       <b-modal
         id="modal-1"
-        size="lg"
+        size="xs"
         header-bg-variant="primary"
         title="detalles de compra"
         class="
@@ -29,38 +29,56 @@
             col-12
             d-flex
             flex-column
-            justify-content-center
-            align-items-center
+            justify-content-start
+            align-items-start
           "
         >
-          <input
-            class="form-control w-75 m-2 p-2"
-            type="text"
-            :value="user.name"
-            autofocus
-            required
-            minlength="5"
-            disabled
-          />
-          <input
-            class="form-control w-75 m-2 p-2"
-            type="text"
-            :value="totalCantidad"
-            autofocus
-            required
-            disabled
-          />
-          <input
-            class="form-control w-75 m-2 p-2"
-            type="text"
-            :value="totalPrecio"
-            autofocus
-            required
-            disabled
-          />
-          <div class="buttons">
-            <button id="btn-pay" class="btn btn-warning p-2 m-2" @click="hideModal">Pagar</button>
-            <button class="btn btn-danger p-2 m-2" @click="hideModal">Cancelar venta</button>
+          <div class="name col-12 d-flex justify-content-center align-items-center p-2">
+            <label class="col-4 p-1">Nombre:</label>
+            <input
+              class="form-control w-100 m-2 p-2"
+              type="text"
+              :value="user.name"
+              autofocus
+              required
+              minlength="5"
+              disabled
+            />
+          </div>
+          <div class="articulos col-12 d-flex justify-content-center align-items-center p-2">
+            <label class="col-4 p-1">Articulos:</label>
+            <input
+              class="form-control w-100 m-2 p-2"
+              type="text"
+              :value="totalCantidad"
+              autofocus
+              required
+              disabled
+            />
+          </div>
+          <div class="articulos col-12 d-flex justify-content-center align-items-center p-2">
+            <label class="col-4 p-1">Costo Total:</label>
+            <input
+              class="form-control w-75 m-2 p-2"
+              type="text"
+              :value="totalPrecio"
+              autofocus
+              required
+              disabled
+            />
+          </div>
+
+          <div class="buttons d-flex w-100 justify-content-center">
+            <button
+              id="btn-pay"
+              class="btn btn-warning p-2 m-2"
+              @click="hideModal"
+            >
+              Pagar
+            </button>
+            <button class="btn btn-danger p-2 m-2" @click="hideModal">
+              Cancelar venta
+            </button>
           </div>
         </div>
       </b-modal>
@@ -75,13 +93,13 @@ export default {
 
   computed: {
     ...mapState(["token", "productos", "carro", "user"]),
-    ...mapGetters(["totalCantidad","totalPrecio"]),
+    ...mapGetters(["totalCantidad", "totalPrecio"]),
   },
-  methods:{
+  methods: {
     hideModal() {
       this.$root.$emit("bv::hide::modal", "modal-1", "#btnShow");
     },
-  }
+  },
 };
 </script>
 

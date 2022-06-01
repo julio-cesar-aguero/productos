@@ -57,6 +57,12 @@ const routes = [
     beforeEnter: guardMyrouteUser,
     component: () => import("../views/HomeUser.vue"),
   },
+  {
+    path: "/ventas",
+    name: "view-ventasUser",
+    beforeEnter: guardMyrouteUser,
+    component: () => import("../views/VentasView.vue"),
+  },
 ];
 
 const router = new VueRouter({
