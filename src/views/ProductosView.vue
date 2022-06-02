@@ -31,6 +31,15 @@
         required
         minlength="30"
       ></textarea>
+      <input
+        class="form-control w-75 m-2 p-2"
+        type="text"
+        placeholder="Precio"
+        v-model="producto.precio"
+        autofocus
+        required
+        minlength="1"
+      />
 
       <input
         class="form-control w-75"
@@ -213,10 +222,10 @@ export default {
     },
     showModal(index) {
       console.log("modal", index);
-      this.productoUpdate.id = this.productos_local[index]._id;
-      this.productoUpdate.name = this.productos_local[index].name;
-      this.productoUpdate.description = this.productos_local[index].description;
-      this.productoUpdate.imgProducto = this.productos_local[index].imgProducto;
+      this.productoUpdate.id = this.productos[index]._id;
+      this.productoUpdate.name = this.productos[index].name;
+      this.productoUpdate.description = this.productos[index].description;
+      this.productoUpdate.imgProducto = this.productos[index].imgProducto;
       this.$root.$emit("bv::show::modal", "modal-1");
     },
     hideModal() {
@@ -249,13 +258,17 @@ export default {
       this.idProducto = false;
     },
     eliminar(index, id) {
-   
+    var ids = {
+    indice: index,
+    id: id,
+};
 
-      this.eliminarProducto(id);
+    console.log(index);
+    this.eliminarProducto(ids);
 
     },
   },
-  watch: {
+  /*watch: {
     productos: {
       handler(old, newValue) {
         if (old ) {
@@ -268,76 +281,16 @@ export default {
       },
       deep: true,
     },
-  },
+  },*/
   created() {
     this.datosProtegidos();
     if(localStorage.getItem("productos")){
       console.log("cargando... productos..");
-    this.productos_local = localStorage.getItem("productos");
-    this.productos_local = JSON.parse(this.productos_local);
+   //this.productos_local = localStorage.getItem("productos");
+    //this.productos_local = JSON.parse(this.productos_local);
     }
     
   },
-  mounted() {
-    /*for (var i of this.productos) {
-    this.productos_local.push(i);
-    }*/
-    //this.productos_local = localStorage.getItem('productos');
-    // Se parsea para poder ser usado en js con JSON.parse :)
-  },
-  /*:disabled="[editando ? '' : disabled]"
-  <div class="productos w-100 bg-light">
-      
-      <ul id="example-1" class="list-unstyled">
-        
-        <li
-          class=" w-80 border-bottom border-darkrounded m-3"
-          v-for="(item, index) in productos"
-          :key="index"
-        >
-          <div class="d-flex justify-content-center align-items-center row m-1 p-1 w-90" >
-            <div class="d-flex col-1 m-1 align-items-center justify-content-center">
-              {{ index }}
-            </div>
-            <div class="col m-1 p-2">
-              {{item.name}}
-            </div>
-            <div class="col m-1 p-2">
-              {{item.description}}
-            </div>
-            <div class="col m-1 p-2">imagen</div>
-            <div class="col-3 m-1 p-2 border-dark rounded">
-              <button class="btn btn-warning m-2 p-2 text-white" >Editar</button>
-              <button class="btn btn-danger m-2 p-2" @click="eliminarProducto(item._id)">Eliminar</button>
-            </div>
-          </div>
-          <div class="d-flex justify-content-center align-items-center row m-1 p-1 w-90">
-            <div class="d-flex col-1 m-1 align-items-center justify-content-center">
-              {{ index }}
-            </div>
-            <div class="col m-1 p-2">
-              <input
-                type="text"
-                :value="item.name"
-                class="form-control bg-ligh col-7 p-3 rounded text-center"
-              />
-            </div>
-            <div class="col m-1 p-2">
-              <textarea
-                type="text"
-                :value="item.description"
-                class="form-control bg-light col-12 p-4 rounded text-center border"
-                
-              />
-            </div>
-            <div class="col m-1 p-2">imagen</div>
-            <div class="col-3 m-1 p-2 border-dark rounded">
-              <button class="btn btn-success m-2 p-2" >Guardar</button>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  */
+ 
 };
 </script>

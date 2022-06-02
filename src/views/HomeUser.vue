@@ -20,7 +20,7 @@
                   class="w-100"
                 >
                   <b-card-text>
-                    {{item.description}}
+                    {{item.precio}}
                   </b-card-text>
 
                   <b-button
@@ -90,9 +90,8 @@ export default {
       const articulo = {
         id: item._id,
         name: item.name,
-        description: item.description,
         cantidad: 1,
-        precio: 50,
+        precio: item.precio,
       };
       this.agregarCarrito(articulo);
     },

@@ -27,25 +27,28 @@ export default new Vuex.Store({
         state.productos = payload;
       }
     },
-    setProducto(state, payload){
-
+    setProducto(state, payload) {
+      console.log("mutation setProducto",payload)
+      state.productos.unshift(payload)
+      console.log(state.productos)
     }
     ,
-    updateProducto(state, payload){
+    updateProducto(state, payload) {
       const indice = state.productos.findIndex(function (item) {
         return item._id === payload.id;
       });
-      console.log("payload editar",payload)
-      console.log("producto",state.productos[indice])
+      console.log("payload editar", payload)
+      console.log("producto", state.productos[indice])
       state.productos[indice].name = payload.data.name;
       state.productos[indice].description = payload.data.description;
       state.productos[indice].imgProducto = payload.data.imgProducto;
-      console.log("mutation productos result" , state.productos[indice])
+      console.log("mutation productos result", state.productos[indice])
 
     },
-    deleteProducto(state, payload){
-      var indice = state.productos.indexOf(payload); // obtenemos el indice
-      state.productos.splice(indice, 1); // 1 es la cantidad de elemento a eliminar
+    deleteProducto(state, payload) {
+      //var indice = state.productos.indexOf(payload); // obtenemos el indice
+      console.log(payload)
+      state.productos.splice(payload, 1); // 1 es la cantidad de elemento a eliminar
     }
     ,
     setCarrito(state, payload) {
@@ -69,8 +72,8 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    leerProductos(){
-      
+    leerProductos() {
+
     },
     totalCantidad(state) {
       return Object.values(state.carro).reduce(
@@ -98,15 +101,13 @@ export default new Vuex.Store({
       commit("disminuirCarrito", id);
     },
     agregarCarrito({ commit, state }, articulo) {
+      console.log(articulo)
       const artFind = state.carro.findIndex(function (item) {
         return item.id === articulo.id;
       });
 
       if (artFind >= 0) {
         commit("aumentarCarrito", artFind);
-        //console.log("encontre", artFind);
-        //console.log("quiero modificar", state.carro[artFind].cantidad);
-        //state.carro[artFind].cantidad++;
       } else {
         commit("setCarrito", articulo);
       }
@@ -213,6 +214,7 @@ export default new Vuex.Store({
 
       formdata.append("name", producto.name);
       formdata.append("description", producto.description);
+      formdata.append("precio", producto.precio);
       formdata.append("imgProducto", producto.imgProducto);
 
       var requestOptions = {
@@ -224,16 +226,22 @@ export default new Vuex.Store({
 
       fetch("http://localhost:5010/api/admin/nuevo-producto/", requestOptions)
         .then((response) => response.json())
-        .then((result) => console.log(result))
+        .then((result) => {
+          if (result.error === null) {
+            console.log(result)
+            commit("setProducto",result.data[0]);
+
+          }
+        })
         .catch((error) => console.log("error", error));
     },
 
     // Eliminar Producto
 
-    async eliminarProducto({ commit }, id) {
+    async eliminarProducto({ commit }, ids) {
       try {
         const res = await fetch(
-          "http://localhost:5010/api/admin/eliminar/" + id,
+          "http://localhost:5010/api/admin/eliminar/" + ids.id,
           {
             method: "GET",
             headers: {
@@ -254,7 +262,7 @@ export default new Vuex.Store({
         }
         // Eliminar producto de lista local
         //await data.splice(id, 1);
-        commit("deleteProducto", id);
+        commit("deleteProducto", ids.indice);
         // Actualizar Lista
         //commit("setProductos", data);
       } catch (error) {
@@ -285,14 +293,14 @@ export default new Vuex.Store({
           }
         );
         const dataDB = await res.json();
-        
+
         console.log("editado", dataDB);
-        if(dataDB.error === null){
-          commit("updateProducto",dataDB)
-        }else{
-          
+        if (dataDB.error === null) {
+          commit("updateProducto", dataDB)
+        } else {
+
         }
-        
+
 
       } catch (error) {
         console.log(error);
@@ -323,5 +331,23 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
+    async nuevaVenta({commit},venta){
+      console.log(venta)
+      try {
+        const res = await fetch("http://localhost:5010/api/user-ventas/nueva-venta/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify(venta),
+        });
+        const respuesta = await res.json();
+        console.log(respuesta);
+
+      } catch (error) {
+        
+      }
+    }
   },
 });

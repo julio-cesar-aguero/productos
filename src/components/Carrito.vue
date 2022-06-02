@@ -52,7 +52,7 @@
     </div>
     <b-col v-for="(item, index) in carro" :key="index" class="col-12 text-dark">
       <div class="w-100 producto p-1">
-        <b-card :header="item.name" class="bg-indigo">
+        <b-card  class="bg-indigo">
           <div class="d-flex justify-content-around contenido p-1">
             <div
               class="
@@ -64,7 +64,7 @@
               "
             >
               <b-card-text>
-                <p>{{ item.description }}</p>
+                <p>{{ item.name }}</p>
               </b-card-text>
             </div>
             <div class="rigth d-flex flex-column">
@@ -160,12 +160,12 @@ export default {
     }
     ,
     agregarCarro(item) {
+      console.log(item)
       const articulo = {
         id: item._id,
         name: item.name,
-        description: item.description,
         cantidad: 1,
-        precio: 50,
+        precio: item.precio,
       };
       this.agregarCarrito(articulo);
     },
