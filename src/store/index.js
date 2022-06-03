@@ -11,6 +11,7 @@ export default new Vuex.Store({
     },
     token: null,
     productos: [],
+    ventas: [],
     producto: {},
     carro: [],
   },
@@ -27,8 +28,13 @@ export default new Vuex.Store({
         state.productos = payload;
       }
     },
+    setVentas(state, payload) {
+      if (payload) {
+        state.ventas = payload;
+      }
+    },
     setProducto(state, payload) {
-      console.log("mutation setProducto",payload)
+      console.log("mutation setProducto", payload)
       state.productos.unshift(payload)
       console.log(state.productos)
     }
@@ -229,7 +235,7 @@ export default new Vuex.Store({
         .then((result) => {
           if (result.error === null) {
             console.log(result)
-            commit("setProducto",result.data[0]);
+            commit("setProducto", result.data[0]);
 
           }
         })
@@ -322,7 +328,7 @@ export default new Vuex.Store({
 
         const dataDB = await res.json();
         console.log(dataDB);
-        //commit("setProductos", dataDB);
+        commit("setVentas", dataDB);
 
         //localStorage
 
@@ -331,7 +337,7 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
-    async nuevaVenta({commit},venta){
+    async nuevaVenta({ commit }, venta) {
       console.log(venta)
       try {
         const res = await fetch("http://localhost:5010/api/user-ventas/nueva-venta/", {
@@ -346,7 +352,7 @@ export default new Vuex.Store({
         console.log(respuesta);
 
       } catch (error) {
-        
+
       }
     }
   },

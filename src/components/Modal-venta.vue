@@ -157,6 +157,7 @@ export default {
               importe: parseFloat(this.pago.importe),
               cambio: Math.abs(parseFloat(this.pago.cambio)),
               Total: this.totalPrecio,
+              username: localStorage.getItem("userName"),
               
             },
             this.carro,
