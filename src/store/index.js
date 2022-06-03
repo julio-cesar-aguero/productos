@@ -107,7 +107,7 @@ export default new Vuex.Store({
       commit("disminuirCarrito", id);
     },
     agregarCarrito({ commit, state }, articulo) {
-      console.log(articulo)
+      //console.log(articulo)
       const artFind = state.carro.findIndex(function (item) {
         return item.id === articulo.id;
       });
@@ -198,7 +198,7 @@ export default new Vuex.Store({
         //Vuex
 
         const dataDB = await res.json();
-        console.log(dataDB);
+        
         commit("setProductos", dataDB);
 
         //localStorage
@@ -322,17 +322,12 @@ export default new Vuex.Store({
           },
         });
 
-        // Almacenar Productos
 
-        //Vuex
 
         const dataDB = await res.json();
-        console.log(dataDB);
+
         commit("setVentas", dataDB);
 
-        //localStorage
-
-        //localStorage.setItem("productos", JSON.stringify(dataDB));
       } catch (error) {
         console.log(error);
       }

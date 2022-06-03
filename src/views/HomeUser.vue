@@ -69,7 +69,7 @@ export default {
     carrito: {
       immediate: true,
       handler(value) {
-        console.log("carrito", value);
+        //console.log("carrito", value);
       },
     },
   },
@@ -100,7 +100,7 @@ export default {
     this.datosProtegidos();
     this.productos_local = localStorage.getItem("productos");
     this.productos_local = JSON.parse(this.productos_local);
-    console.log("Created");
+    
   },
 };
 </script>

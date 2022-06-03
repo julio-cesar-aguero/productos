@@ -13,7 +13,7 @@
     <b-collapse id="navbar-toggle-collapse" is-nav>
       <b-navbar-nav class="ml-auto text-dark">
         <b-nav-item href="/ventas">Ventas</b-nav-item>
-        <b-nav-item href="#">Link 2</b-nav-item>
+        <b-nav-item href="/login">Cerrar Sesion</b-nav-item>
         <b-nav-item href="#" disabled>Disabled</b-nav-item>
       </b-navbar-nav>
     </b-collapse>

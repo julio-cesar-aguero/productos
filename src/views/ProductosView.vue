@@ -268,26 +268,12 @@ export default {
 
     },
   },
-  /*watch: {
-    productos: {
-      handler(old, newValue) {
-        if (old ) {
-          console.log("Actualizado", newValue);
-          this.productos_local = this.productos;
-        } else {
-          console.log("Vacio");
-          this.productos_local = [];
-        }
-      },
-      deep: true,
-    },
-  },*/
+
   created() {
     this.datosProtegidos();
     if(localStorage.getItem("productos")){
       console.log("cargando... productos..");
-   //this.productos_local = localStorage.getItem("productos");
-    //this.productos_local = JSON.parse(this.productos_local);
+   
     }
     
   },

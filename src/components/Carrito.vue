@@ -160,7 +160,7 @@ export default {
     }
     ,
     agregarCarro(item) {
-      console.log(item)
+      //console.log(item)
       const articulo = {
         id: item._id,
         name: item.name,

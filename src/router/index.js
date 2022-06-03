@@ -5,30 +5,27 @@ import store from "../store";
 Vue.use(VueRouter);
 function guardMyrouteUser(to, from, next) {
   var isAuthenticated = false;
-  //this is just an example. You will have to find a better or
-  // centralised way to handle you localstorage data handling
-  console.log('zoe',localStorage.getItem("Rol") );
+  
   if (localStorage.getItem("Rol") === 'user' && localStorage.getItem("token") != null) {
     isAuthenticated = true;
-    //alert("Si")
+    
   } else {
-    //alert("no");
+    
     isAuthenticated = false;
   }
   if (isAuthenticated) {
-    next(); // allow to enter route
+    next();
   } else {
-    next('/login'); // go to '/login';
+    next('/login');
   }
 }
 function guardMyrouteAdmin(to, from, next) {
   var isAuthenticated = false;
-  //this is just an example. You will have to find a better or
-  // centralised way to handle you localstorage data handling
+  
   console.log('zoe',localStorage.getItem("Rol") );
   if (localStorage.getItem("Rol") === 'admin' && localStorage.getItem("token") != null) {
     isAuthenticated = true;
-    //alert("Si")
+    
   } else {
     //alert("no");
     isAuthenticated = false;
