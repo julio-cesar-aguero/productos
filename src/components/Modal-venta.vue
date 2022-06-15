@@ -136,7 +136,6 @@ export default {
   methods: {
     ...mapActions(["nuevaVenta"]),
     hideModal() {
-      console.log(this.carro);
       this.$root.$emit("bv::hide::modal", "modal-1", "#btnShow");
     },
     pagar() {
@@ -146,10 +145,9 @@ export default {
           this.errors.push("Nombre requerido!");
         }
         if (this.pago.importe < this.totalPrecio) {
-          console.log("error", this.pago.importe, this.totalPrecio);
+          
           this.errors.push("Ingresa un importe valido!");
         } else {
-          console.log("success", this.pago.importe, this.totalPrecio);
           const data = [
             {
               usuarioVentas: this.user.name,
@@ -163,6 +161,7 @@ export default {
             this.carro,
           ];
           this.nuevaVenta(data);
+          this.hideModal()
         }
       } catch (error) {
         console.log(error.message);

@@ -89,6 +89,7 @@
           v-model="productoUpdate.description"
         />
         <div
+        
           class="buttons d-flex justify-content-center align-items-center p-4"
         >
           <b-button class="btn btn-danger m-2" @click="hideModal"
@@ -113,9 +114,10 @@
         "
       >
         <div class="col-1">ID:</div>
-        <div class="col-3">NOMBRE:</div>
+        <div class="col-2">NOMBRE:</div>
         <div class="col-3">DESCRIPCION:</div>
-        <div class="col-4">IMAGEN:</div>
+        <div class="col-2">COSTO:</div>
+        <div class="col-2">IMAGEN:</div>
         <div class="col-1">OPCIONES:</div>
       </div>
       <div
@@ -135,13 +137,17 @@
         <div class="col-1">
           {{ index }}
         </div>
-        <div class="col-3">
+        <div class="col-2">
           {{ item.name }}
         </div>
-        <div class="col-3">
+        <div class="col-4">
           {{ item.description }}
         </div>
-        <div class="col-4 w-5 h-5 rounded-circle">
+         <div class="col-1">
+          {{ item.precio }}
+        </div>
+
+        <div class="col-3 w-5 h-5 rounded-circle">
           <img class="w-5 h-5 rounded-circle" width="80" height="80" v-bind:src="'http://localhost:5010/img/productos/' + item.imgProducto" alt="imagen de producto">
           
         </div>

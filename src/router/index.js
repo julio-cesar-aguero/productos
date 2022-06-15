@@ -22,19 +22,19 @@ function guardMyrouteUser(to, from, next) {
 function guardMyrouteAdmin(to, from, next) {
   var isAuthenticated = false;
   
-  console.log('zoe',localStorage.getItem("Rol") );
+  
   if (localStorage.getItem("Rol") === 'admin' && localStorage.getItem("token") != null) {
     isAuthenticated = true;
     
-  } else {
-    //alert("no");
-    isAuthenticated = false;
-  }
+  } 
   if (isAuthenticated) {
     next(); // allow to enter route
-  } else {
+  } else if(localStorage.getItem("token") === null){
     next('/login'); // go to '/login';
+  }else{
+    return next('/user');
   }
+  
 }
 const routes = [
   {
@@ -68,20 +68,5 @@ const router = new VueRouter({
   routes,
 });
 
-/*
-router.beforeEach((to, from, next) => {
-  const rutaEsProtegida = to.matched.some(
-    (record) => record.meta.rutaProtegida
-  );
-  if (rutaEsProtegida) {
-    if (localStorage.getItem("token") === null) {
-      console.log("token", localStorage.getItem("token"));
-      next("/login");
-    } else if (localStorage.getItem("Rol") == "admin") {
-      next();
-    }
-  } else {
-    next();
-  }
-});*/
+
 export default router;

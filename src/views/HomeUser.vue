@@ -1,46 +1,34 @@
 <template>
-  <div>
-    <div class="container-fluid bg-ligth d-flex col-15 pt-5">
-      <div
-        class="container d-flex flex-column justify-content-start col-8 rounded"
-      >
+  <b-row>
+    <div class="container-fluid bg-ligth d-flex col-12 pt-5">
+      <div class="container d-flex flex-column justify-content-start col-9 rounded">
         <Carrusel class="w-100"></Carrusel>
         <h1 class="title">Nuestros Productos</h1>
-        <b-container class="w-100 col-12 bv-example-row">
+        <b-container class="col-12 bv-example-row">
           <b-row cols="1" cols-md="2" cols-lg="3">
-            <b-col v-for="(item, index) of productos" :key="index">
-              <div class="w-100 m-1 producto pb-2">
-                <b-card
-                  :title="item.name"
-                  :img-src="'http://localhost:5010/img/productos/' + item.imgProducto"
-                  img-alt="Image"
-                  img-top
-                  tag="article"
-                  style="max-width: 20rem"
-                  class="w-100"
-                >
-                  <b-card-text>
-                    {{item.precio}}
-                  </b-card-text>
-
-                  <b-button
-                    @click.prevent="agregarCarro(item)"
-                    variant="primary"
-                    >Agregar al carrito</b-button
-                  >
-                </b-card>
-              </div>
+            <b-col>
+              <b-card-group title="Mas Vendidos">
+                <h2>Más vendidos</h2>
+              </b-card-group>
             </b-col>
+
+          </b-row>
+          <b-row cols="1" cols-md="2" cols-lg="3">
+
+            <b-card-group deck columns class="d-flex" v-for="(item, index) of productos" :key="index">
+
+              <Card :item="item"></Card>
+
+            </b-card-group>
+
           </b-row>
         </b-container>
       </div>
-      <div
-        header="carrito-vacio"
-        class="
+      <div header="carrito-vacio" class="
           border
           bg-dark
           carrito-area
-          col-4
+          col-3
           d-flex
           flex-column
           m-1
@@ -48,12 +36,12 @@
           text-white
           rounded
           h-10
-        "
-        v-if="carro.length === 0"
-      ><h2>Carrito Vacio</h2></div>
+        " v-if="carro.length === 0">
+        <h2>Carrito Vacio</h2>
+      </div>
       <Carrito v-else></Carrito>
     </div>
-  </div>
+  </b-row>
 </template>
 
 <script>
@@ -61,6 +49,7 @@ import { mapState, mapActions } from "vuex";
 
 import Carrusel from "../components/Carrusel.vue";
 import Carrito from "../components/Carrito.vue";
+import Card from "../components/Card.vue"
 export default {
   computed: {
     ...mapState(["token", "productos", "carro", "user"]),
@@ -76,6 +65,7 @@ export default {
   components: {
     Carrusel,
     Carrito,
+    Card,
   },
   methods: {
     ...mapActions([
@@ -85,22 +75,13 @@ export default {
       "aumentarCarritoAction",
       "disminuirCarritoAction",
     ]),
-    
-    agregarCarro(item) {
-      const articulo = {
-        id: item._id,
-        name: item.name,
-        cantidad: 1,
-        precio: item.precio,
-      };
-      this.agregarCarrito(articulo);
-    },
+
   },
   created() {
     this.datosProtegidos();
     this.productos_local = localStorage.getItem("productos");
     this.productos_local = JSON.parse(this.productos_local);
-    
+
   },
 };
 </script>

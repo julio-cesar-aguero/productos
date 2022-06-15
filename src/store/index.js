@@ -119,13 +119,12 @@ export default new Vuex.Store({
       }
     },
     quitarCarro({ commit }, id) {
-      console.log(id);
+      
       commit("deleteCarrito", id);
     },
     //Login
 
     async login({ commit }, usuario) {
-      console.log(usuario);
       //try {
       const res = await fetch("http://localhost:5010/api/user/login", {
         method: "POST",
@@ -138,7 +137,7 @@ export default new Vuex.Store({
       const resDB = await res.json();
       commit("setUser", resDB.name);
       try {
-        console.log(resDB);
+        //console.log(resDB);
         if (!resDB) {
           throw new error("No hay respuesta del servidor :(");
         }
@@ -147,7 +146,7 @@ export default new Vuex.Store({
         localStorage.setItem("token", resDB.data.token);
         localStorage.setItem("userName", resDB.name);
         localStorage.setItem("Rol", resDB.roles);
-        console.log("roles", resDB.roles);
+        //console.log("roles", resDB.roles);
         if (resDB.roles === "admin") {
           router.push({ name: "home" });
         } else {
@@ -176,8 +175,6 @@ export default new Vuex.Store({
       localStorage.removeItem("Rol");
       commit("setToken", null);
       commit("setUser", null);
-
-      console.log(router.currentRoute.name);
       if (router.currentRoute.name != "login") router.push({ name: "login" });
     },
 
@@ -234,7 +231,7 @@ export default new Vuex.Store({
         .then((response) => response.json())
         .then((result) => {
           if (result.error === null) {
-            console.log(result)
+            
             commit("setProducto", result.data[0]);
 
           }
@@ -249,7 +246,7 @@ export default new Vuex.Store({
         const res = await fetch(
           "http://localhost:5010/api/admin/eliminar/" + ids.id,
           {
-            method: "GET",
+            method: "DELETE",
             headers: {
               "Content-Type": "application/json",
               "auth-token": localStorage.getItem("token"),
@@ -299,8 +296,6 @@ export default new Vuex.Store({
           }
         );
         const dataDB = await res.json();
-
-        console.log("editado", dataDB);
         if (dataDB.error === null) {
           commit("updateProducto", dataDB)
         } else {
@@ -333,7 +328,6 @@ export default new Vuex.Store({
       }
     },
     async nuevaVenta({ commit }, venta) {
-      console.log(venta)
       try {
         const res = await fetch("http://localhost:5010/api/user-ventas/nueva-venta/", {
           method: "POST",
@@ -344,7 +338,6 @@ export default new Vuex.Store({
           body: JSON.stringify(venta),
         });
         const respuesta = await res.json();
-        console.log(respuesta);
 
       } catch (error) {
 
