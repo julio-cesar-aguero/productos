@@ -1,8 +1,6 @@
 <template>
   <div>
     <b-btn v-b-modal="'modal-producto-' + index">Ver</b-btn>
-
-
     <b-modal :id="'modal-producto-' + index" size="xl" title="BootstrapVue">
       <div class="producto">
         <div class="detalles-producto">
@@ -13,14 +11,32 @@
 
           <div class="cantidad">
             <small><b>Disponible:</b></small>
-            <input class="form-control w-25 m-2 p-2 text-center" type="text" placeholder="1" disabled />
+            <input class="form-control w-25 m-2 p-3 text-center" type="text" placeholder="1" disabled />
           </div>
           <h4 class="title">$ {{ producto.precio }}</h4>
 
         </div>
-        <div class="img bg-info  d-flex">
+        <div class="d-flex">
+          <div class="img bg-dark  d-flex">
+            <img src="https://picsum.photos/500/300" alt="">
+          </div>
+          <div class="d-flex flex-column">
+            <div class="img  d-flex">
+              <img src="https://picsum.photos/90/90" alt="">
+            </div>
+            <div class="img  d-flex">
+              <img src="https://picsum.photos/90/90" alt="">
+            </div>
+            <div class="img  d-flex">
+              <img src="https://picsum.photos/90/90" alt="">
+            </div>
+            <div class="img  d-flex">
+              <img src="https://picsum.photos/90/90" alt="">
+            </div>
+          </div>
 
         </div>
+
 
       </div>
 
@@ -91,5 +107,21 @@ export default {
 
 .title {
   font-size: 1.7em;
+}
+
+.img {
+  padding: 0.5em;
+  border-radius: 5px;
+}
+
+.img img {
+  border-radius: 5px;
+  overflow: hidden;
+
+}
+
+.img img:hover {
+  transform: scale(0.99999);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 </style>
