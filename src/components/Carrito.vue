@@ -5,7 +5,7 @@
       border
       bg-dark
       carrito-area
-      col-4
+      col-12
       d-flex
       flex-column
       m-1
@@ -21,7 +21,7 @@
             col-8
             d-flex
             flex-column
-            p-4
+            p-2
             rounded
             infCompra
             justify-content-start
@@ -50,14 +50,14 @@
         </div>
       </div>
     </div>
-    <b-col v-for="(item, index) in carro" :key="index" class="col-12 text-dark">
+    <b-col v-for="(item, index) in carro" :key="index" class="col-10 text-dark">
       <div class="w-100 producto p-1">
         <b-card  class="bg-indigo">
           <div class="d-flex justify-content-around contenido p-1">
             <div
               class="
                 inf
-                col-6
+                col-5
                 d-flex
                 align-items-center
                 justify-content-between

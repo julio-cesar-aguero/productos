@@ -1,7 +1,25 @@
 <template>
   <b-row>
-    <div class="container-fluid bg-ligth d-flex col-12 pt-5">
-      <div class="container d-flex flex-column justify-content-start col-9 rounded">
+    <div class="container-fluid bg-ligth d-flex flex-row col-12 px-5">
+      <div class="col-4">
+        <div header="carrito-vacio" class="
+          border
+          bg-dark
+          carrito-area
+          col-12
+          d-flex
+          flex-column
+          m-1
+          p-1
+          text-white
+          rounded
+          h-10
+        " v-if="carro.length === 0">
+          <h2>Carrito Vacio</h2>
+        </div>
+        <Carrito v-else></Carrito>
+      </div>
+      <div class="container d-flex flex-column justify-content-start col-7 rounded">
         <Carrusel class="w-100"></Carrusel>
         <h1 class="title">Nuestros Productos</h1>
         <b-container class="col-12 bv-example-row">
@@ -17,29 +35,15 @@
 
             <b-card-group deck columns class="d-flex" v-for="(item, index) of productos" :key="index">
 
-              <Card :item="item"></Card>
+              <Card :item="item" :indice="index"></Card>
 
             </b-card-group>
 
           </b-row>
         </b-container>
       </div>
-      <div header="carrito-vacio" class="
-          border
-          bg-dark
-          carrito-area
-          col-3
-          d-flex
-          flex-column
-          m-1
-          p-5
-          text-white
-          rounded
-          h-10
-        " v-if="carro.length === 0">
-        <h2>Carrito Vacio</h2>
-      </div>
-      <Carrito v-else></Carrito>
+
+
     </div>
   </b-row>
 </template>

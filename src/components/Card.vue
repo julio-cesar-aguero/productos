@@ -16,7 +16,7 @@
         </div>
         <div class="container-card-options">
             <b-button>
-                Ver
+                <ModalVerProducto :index="indice" :producto="item"></ModalVerProducto>
             </b-button>
             <b-button @click.prevent="agregarCarro(item)" variant="primary">Agregar al carrito</b-button>
         </div>
@@ -28,11 +28,16 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import Carrito from "../components/Carrito.vue";
+import ModalverProducto from "../components/Modal-verProducto.vue"
+import ModalVerProducto from "../components/Modal-verProducto.vue";
 export default {
     computed: {
         ...mapState(["token", "productos", "carro", "user"]),
     },
-    props: ['item'],
+    props: ["item","indice"],
+    componets: {
+        ModalverProducto,
+    },
     methods: {
         ...mapActions([
             "datosProtegidos",
@@ -41,7 +46,6 @@ export default {
             "aumentarCarritoAction",
             "disminuirCarritoAction",
         ]),
-
         agregarCarro(producto) {
             const articulo = {
                 id: producto._id,
@@ -52,6 +56,7 @@ export default {
             this.agregarCarrito(articulo);
         },
     },
+    components: { ModalVerProducto }
 }
 
 </script>
