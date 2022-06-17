@@ -66,15 +66,25 @@ export default {
     width: 100%;
     height: 90%;
     position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.515);
+    border: 1px solid rgba(0, 0, 0, 0.158);
     border-radius: 10px;
     margin: 1em 0;
-    padding: 1.5em;
+    padding: 0 0 0.4em;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+.producto:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transform: scale(0.9999999);
 }
 
 .img img {
-    width: 60%;
+    width: 100%;
+    height: 90%;
+    margin-bottom: 0.5em;
 }
 
 .card-precio {

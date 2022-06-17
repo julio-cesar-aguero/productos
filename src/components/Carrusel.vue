@@ -1,8 +1,9 @@
 <template>
- <div>
+ <div class="d-flex justify-content-center">
   <b-carousel
     id="carousel-fade"
-    style="text-shadow: 0px 0px 2px #000"
+    class="w-70"
+    style="text-shadow: 1px 0px 2px #000"
     fade
     controls
     indicators

@@ -1,14 +1,14 @@
 <template>
   <b-row>
-    <div class="container-fluid bg-ligth d-flex flex-row col-12 px-5">
-      <div class="col-4">
+    <div id="user-view" class="container-fluid col-12">
+      <b-col sm="8" md="4" xl="3">
         <div header="carrito-vacio" class="
           border
           bg-dark
           carrito-area
           col-12
           d-flex
-          flex-column
+          flex-row
           m-1
           p-1
           text-white
@@ -18,28 +18,36 @@
           <h2>Carrito Vacio</h2>
         </div>
         <Carrito v-else></Carrito>
-      </div>
-      <div class="container d-flex flex-column justify-content-start col-7 rounded">
+      </b-col>
+      <div class="container d-flex flex-column justify-content-center align-items-center col-8 rounded">
         <Carrusel class="w-100"></Carrusel>
         <h1 class="title">Nuestros Productos</h1>
         <b-container class="col-12 bv-example-row">
-          <b-row cols="1" cols-md="2" cols-lg="3">
-            <b-col>
-              <b-card-group title="Mas Vendidos">
-                <h2>Más vendidos</h2>
-              </b-card-group>
-            </b-col>
+          
+          <div>
+            <b-card no-body>
+              <b-card-header header-tag="nav">
+                <b-nav card-header tabs>
+                  <b-nav-item active>Más Vendidos</b-nav-item>
+                  <b-nav-item >A-Z</b-nav-item>
+                  <b-nav-item >Categorias</b-nav-item>
+                </b-nav>
+              </b-card-header>
 
-          </b-row>
-          <b-row cols="1" cols-md="2" cols-lg="3">
+              <b-card-body class="text-center">
+                <b-row cols="1" cols-md="2" cols-lg="3">
 
-            <b-card-group deck columns class="d-flex" v-for="(item, index) of productos" :key="index">
+                  <b-card-group deck columns class="d-flex" v-for="(item, index) of productos" :key="index">
 
-              <Card :item="item" :indice="index"></Card>
+                    <Card :item="item" :indice="index"></Card>
 
-            </b-card-group>
+                  </b-card-group>
 
-          </b-row>
+                </b-row>
+              </b-card-body>
+            </b-card>
+          </div>
+
         </b-container>
       </div>
 
@@ -90,5 +98,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+#user-view {
+  background-color: #f2f2f2;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+  justify-content: center;
+
+}
 </style>

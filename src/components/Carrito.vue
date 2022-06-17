@@ -1,9 +1,6 @@
 <template>
-  <div
-    header="carrito"
-    class="
+  <div id="carrito" header="carrito" class="
       border
-      bg-dark
       carrito-area
       col-12
       d-flex
@@ -12,30 +9,26 @@
       text-white
       rounded
       h-60
-    "
-  >
+    ">
     <div class="bg-secondary rounded col-12 text-dark d-flex flex-column">
-      <div class="container d-flex justify-content-between my-2">
-        <div
-          class="
-            col-8
+      <div class="container d-flex flex-column justify-content-between my-2">
+        <div class="
+            col-12
             d-flex
             flex-column
-            p-2
+            p-5
             rounded
             infCompra
             justify-content-start
             align-items-start
             bg-dark
             text-white
-          "
-        >
+          ">
           <small>Cantidad: {{ totalCantidad }}</small>
 
-          <h4>Total: {{totalPrecio}}</h4>
+          <h4>Total: {{ totalPrecio }}</h4>
         </div>
-        <div
-          class="
+        <div class="
             button
             d-flex
             flex-column
@@ -43,37 +36,30 @@
             align-items-center
             btn btn-prim
             ary
-          "
-        >
+          ">
           <button class="btn btn-warning m-1" @click="vaciarCarro">Vaciar Carrito</button>
-          <ModalVenta class="btn btn-danger m-1 " :class="totalCantidad > 0 ? '' : 'disabled' "></ModalVenta>
+          <ModalVenta class="btn btn-danger m-1 " :class="totalCantidad > 0 ? '' : 'disabled'"></ModalVenta>
         </div>
       </div>
     </div>
-    <b-col v-for="(item, index) in carro" :key="index" class="col-10 text-dark">
+    <b-col v-for="(item, index) in carro" :key="index" class="col-12 text-dark">
       <div class="w-100 producto p-1">
-        <b-card  class="bg-indigo">
-          <div class="d-flex justify-content-around contenido p-1">
-            <div
-              class="
+        <b-card id="card" >
+          <div class="d-flex justify-content-around contenido p-4">
+            <div class="
                 inf
-                col-5
+                col-12
                 d-flex
                 align-items-center
                 justify-content-between
-              "
-            >
+              ">
               <b-card-text>
                 <p>{{ item.name }}</p>
               </b-card-text>
             </div>
             <div class="rigth d-flex flex-column">
               <div class="options col-12">
-                <b-button
-                  class="w-100"
-                  @click.prevent="quitarCarro(item.id)"
-                  variant="danger"
-                >
+                <b-button class="w-100" @click.prevent="quitarCarro(item.id)" variant="danger">
                   X
                 </b-button>
               </div>
@@ -81,8 +67,7 @@
           </div>
           <span>Cantidad:</span>
           <div class="precio m-2 d-flex justify-content-center pb-1">
-            <button
-              class="
+            <button class="
                 btn btn-success
                 rounded
                 col-2
@@ -91,17 +76,14 @@
                 justify-content-center
                 align-items-center
                 text-white
-              "
-              @click.prevent="disminuirCarritoAction(index)"
-            >
+              " @click.prevent="disminuirCarritoAction(index)">
               -
             </button>
             <div class="col-4 cantidad font-italic">
               <h2 class="title">{{ item.cantidad }}</h2>
             </div>
 
-            <button
-              class="
+            <button class="
                 btn btn-success
                 rounded
                 col-2
@@ -110,9 +92,7 @@
                 justify-content-center
                 align-items-center
                 text-white
-              "
-              @click.prevent="aumentarCarritoAction(index)"
-            >
+              " @click.prevent="aumentarCarritoAction(index)">
               +
             </button>
           </div>
@@ -144,7 +124,7 @@ export default {
   },
   computed: {
     ...mapState(["token", "productos", "carro", "user"]),
-    ...mapGetters(["totalCantidad","totalPrecio"]),
+    ...mapGetters(["totalCantidad", "totalPrecio"]),
     ...mapMutations(["vaciarCarrito"]),
   },
   methods: {
@@ -155,7 +135,7 @@ export default {
       "aumentarCarritoAction",
       "disminuirCarritoAction",
     ]),
-    vaciarCarro(){
+    vaciarCarro() {
       this.$store.commit("vaciarCarrito")
     }
     ,
@@ -174,5 +154,16 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+/*Estilos contenedor carrito*/
+#carrito{
+  background-color: rgba(0, 0, 0, 0.164);
+}
+/* Estilos de tarjeta de productos del carrito*/
+#card{
+  background-color: #f2f2f2ee;
+}
+#card:hover{
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
 </style>
