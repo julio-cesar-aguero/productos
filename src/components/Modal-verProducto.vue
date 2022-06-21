@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-btn v-b-modal="'modal-producto-' + index">Ver</b-btn>
-    <b-modal :id="'modal-producto-' + index" size="xl" title="BootstrapVue">
+    <b-modal :id="'modal-producto-' + index" size="xl" title="BootstrapVue" hide-header>
       <div class="producto">
         <div class="detalles-producto">
           <h3 class="name text-center">{{ producto.name }}</h3>
@@ -20,19 +20,40 @@
           <div class="img bg-dark  d-flex">
             <img src="https://picsum.photos/500/300" alt="">
           </div>
-          <div class="d-flex flex-column">
-            <div class="img  d-flex">
-              <img src="https://picsum.photos/90/90" alt="">
+          <div class="d-flex flex-column" @click="select - img">
+            <input type="radio" name="option" id="item-1" value="Uno" v-model="picked">
+            <input type="radio" name="option" id="item-2">
+            <input type="radio" name="option" id="item-3">
+            <input type="radio" name="option" id="item-4">
+            <br>
+            <!--  -->
+            {{picked}}
+            <div class="cards">
+              <label id="selector-1" class="card" for="item-1">
+                <div class="img img-prev img-1 d-flex">
+                  <img src="https://picsum.photos/90/90" alt="">
+                </div>
+              </label>
+              <label id="selector-2" class="card" for="item-2">
+                <div class="img img-prev img-2  d-flex">
+                  <img src="https://picsum.photos/90/90" alt="">
+                </div>
+              </label>
+              <label id="selector-3" class="card" for="item-3">
+                <div class="img img-prev img-3  d-flex">
+                  <img src="https://picsum.photos/90/90" alt="">
+                </div>
+              </label>
+
+              <label id="selector-4" class="card" for="item-4">
+                <div class="img img-prev img-4  d-flex">
+                  <img src="https://picsum.photos/90/90" alt="">
+                </div>
+              </label>
+
+
             </div>
-            <div class="img  d-flex">
-              <img src="https://picsum.photos/90/90" alt="">
-            </div>
-            <div class="img  d-flex">
-              <img src="https://picsum.photos/90/90" alt="">
-            </div>
-            <div class="img  d-flex">
-              <img src="https://picsum.photos/90/90" alt="">
-            </div>
+
           </div>
 
         </div>
@@ -58,6 +79,15 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 export default {
+  data() {
+    return {
+      picked: 'michi',
+      selectImg: {
+        imgValue: '',
+        optionValue: 1
+      }
+    }
+  },
   props: ["index", "producto"],
 };
 </script>
@@ -74,6 +104,31 @@ export default {
   padding: 0.5em;
   margin: 0.5em;
   width: 100%;
+
+}
+.card{
+   margin: 0.2em;
+   transform-style: preserve-3d;
+   cursor: pointer;
+}
+.img-prev {
+  width: 90px;
+  height: 90px;
+ 
+
+}
+
+#item-1:checked ~ .cards #selector-1{
+  outline: 2px solid rgba(12, 12, 207, 0.611);
+}
+#item-2:checked ~ .cards #selector-2{
+  outline: 2px solid rgba(12, 12, 207, 0.611);
+}
+#item-3:checked ~ .cards #selector-3{
+  outline: 2px solid rgba(12, 12, 207, 0.611);
+}
+#item-4:checked ~ .cards #selector-4{
+  outline: 2px solid rgba(12, 12, 207, 0.611);
 }
 
 .detalles-producto {

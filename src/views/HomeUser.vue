@@ -23,14 +23,14 @@
         <Carrusel class="w-100"></Carrusel>
         <h1 class="title">Nuestros Productos</h1>
         <b-container class="col-12 bv-example-row">
-          
+
           <div>
             <b-card no-body>
               <b-card-header header-tag="nav">
                 <b-nav card-header tabs>
                   <b-nav-item active>Más Vendidos</b-nav-item>
-                  <b-nav-item >A-Z</b-nav-item>
-                  <b-nav-item >Categorias</b-nav-item>
+                  <b-nav-item>A-Z</b-nav-item>
+                  <b-nav-item>Categorias</b-nav-item>
                 </b-nav>
               </b-card-header>
 
