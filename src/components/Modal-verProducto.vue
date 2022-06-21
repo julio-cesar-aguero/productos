@@ -17,17 +17,30 @@
 
         </div>
         <div class="d-flex">
-          <div class="img bg-dark  d-flex">
-            <img src="https://picsum.photos/500/300" alt="">
+
+
+          <!--  <img src="https://picsum.photos/500/300" alt="">
+            <small>{{ picked }}</small> -->
+          <div class="img  d-flex text-white w-100">
+
+            <div style="width:550px">
+              <zoom-on-hover img-normal="sky.jpg" img-zoom="sky-zoom.jpg" :scale="1.6" @loaded="onload"
+                @resized="onresize"></zoom-on-hover>
+            </div>
+
+
+
           </div>
-          <div class="d-flex flex-column" @click="select - img">
-            <input type="radio" name="option" id="item-1" value="Uno" v-model="picked">
-            <input type="radio" name="option" id="item-2">
-            <input type="radio" name="option" id="item-3">
-            <input type="radio" name="option" id="item-4">
-            <br>
-            <!--  -->
-            {{picked}}
+          
+ <div class="d-flex flex-column">
+  <div class="picked d-none">
+ <input type="radio" name="option" id="item-1" value="1" v-model="picked">
+            <input type="radio" name="option" id="item-2" value="2" v-model="picked">
+            <input type="radio" name="option" id="item-3" value="3" v-model="picked">
+            <input type="radio" name="option" id="item-4" value="4" v-model="picked">
+  </div>
+           
+  
             <div class="cards">
               <label id="selector-1" class="card" for="item-1">
                 <div class="img img-prev img-1 d-flex">
@@ -54,7 +67,11 @@
 
             </div>
 
+
+
           </div>
+
+
 
         </div>
 
@@ -78,16 +95,24 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
+
+
 export default {
   data() {
     return {
-      picked: 'michi',
+      picked: 1,
       selectImg: {
         imgValue: '',
         optionValue: 1
-      }
+      },
+
+
+
+
     }
   },
+
+
   props: ["index", "producto"],
 };
 </script>
@@ -106,28 +131,33 @@ export default {
   width: 100%;
 
 }
-.card{
-   margin: 0.2em;
-   transform-style: preserve-3d;
-   cursor: pointer;
+
+.card {
+  margin: 0.2em;
+  transform-style: preserve-3d;
+  cursor: pointer;
 }
+
 .img-prev {
   width: 90px;
   height: 90px;
- 
+
 
 }
 
-#item-1:checked ~ .cards #selector-1{
+#item-1:checked~.cards #selector-1 {
   outline: 2px solid rgba(12, 12, 207, 0.611);
 }
-#item-2:checked ~ .cards #selector-2{
+
+#item-2:checked~.cards #selector-2 {
   outline: 2px solid rgba(12, 12, 207, 0.611);
 }
-#item-3:checked ~ .cards #selector-3{
+
+#item-3:checked~.cards #selector-3 {
   outline: 2px solid rgba(12, 12, 207, 0.611);
 }
-#item-4:checked ~ .cards #selector-4{
+
+#item-4:checked~.cards #selector-4 {
   outline: 2px solid rgba(12, 12, 207, 0.611);
 }
 
@@ -169,14 +199,14 @@ export default {
   border-radius: 5px;
 }
 
-.img img {
+.img {
   border-radius: 5px;
-  overflow: hidden;
+
 
 }
 
 .img img:hover {
-  transform: scale(0.99999);
+  transform: scale(0.999999);
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 </style>
