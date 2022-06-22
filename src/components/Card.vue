@@ -75,10 +75,11 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+    transition: all 600ms;
 }
 .producto:hover{
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    transform: scale(0.9999999);
+    transform: scale(0.9899999);
 }
 
 .img img {

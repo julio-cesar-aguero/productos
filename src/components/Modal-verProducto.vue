@@ -27,6 +27,7 @@
               <zoom-on-hover img-normal="sky.jpg" img-zoom="sky-zoom.jpg" :scale="1.6" @loaded="onload"
                 @resized="onresize"></zoom-on-hover>
             </div>
+            <h3>{{picked}}</h3>
 
 
 
