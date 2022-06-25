@@ -5,18 +5,17 @@
       col-12
       d-flex
       flex-column
-      m-1
       text-white
       rounded
-      h-60
+      h-50
     ">
     <div class="bg-secondary rounded col-12 text-dark d-flex flex-column">
-      <div class="container d-flex flex-column justify-content-between my-2">
+      <div class="container d-flex flex-column justify-content-between my-1">
         <div class="
             col-12
             d-flex
             flex-column
-            p-5
+            p-4
             rounded
             infCompra
             justify-content-start

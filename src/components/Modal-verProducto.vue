@@ -1,9 +1,11 @@
 <template>
   <div>
     <b-btn v-b-modal="'modal-producto-' + index">Ver</b-btn>
+    <!-- modal -->
     <b-modal :id="'modal-producto-' + index" size="xl" title="BootstrapVue" hide-header>
       <div class="producto">
-        <div class="detalles-producto">
+        <!-- detalles -->
+        <div class="detalles-producto w-30">
           <h3 class="name text-center">{{ producto.name }}</h3>
           <div class="container-description">
             <span class="description">{{ producto.description }}</span>
@@ -16,32 +18,48 @@
           <h4 class="title">$ {{ producto.precio }}</h4>
 
         </div>
-        <div class="d-flex">
+        <!-- galeria de imagenes -->
+        <div id="galeria" class="d-flex ">
 
 
           <!--  <img src="https://picsum.photos/500/300" alt="">
             <small>{{ picked }}</small> -->
-          <div class="img  d-flex text-white w-100">
+          <div class="img  d-flex text-white">
 
-            <div style="width:550px">
-              <zoom-on-hover img-normal="sky.jpg" img-zoom="sky-zoom.jpg" :scale="1.6" @loaded="onload"
-                @resized="onresize"></zoom-on-hover>
+            <div id="container-img" style="width: 550px">
+              <zoom-on-hover class="w-100" :img-normal="'http://localhost:5010/img/productos/' + producto.imgProducto"
+                :img-zoom="'http://localhost:5010/img/productos/' + producto.imgProducto" :scale="imageShow.scale"
+                @loaded="imageShow.scale" @resized="imageShow.scale"></zoom-on-hover>
+              <!-- 
+<div class="options">
+                <button class="btn btn-light">-</button>
+                <div class="scale">
+                  <select name="select" v-model="imageShow.scale">
+                    <option value="1.0">escala 1.0</option>
+                    <option value="2.0" selected>escala 2.0</option>
+                    <option value="3.0">escala 3</option>
+                  </select>
+                </div>
+                <button class="btn btn-light">+</button>
+              </div>
+               -->
+
             </div>
-            <h3>{{picked}}</h3>
+
 
 
 
           </div>
-          
- <div class="d-flex flex-column">
-  <div class="picked d-none">
- <input type="radio" name="option" id="item-1" value="1" v-model="picked">
-            <input type="radio" name="option" id="item-2" value="2" v-model="picked">
-            <input type="radio" name="option" id="item-3" value="3" v-model="picked">
-            <input type="radio" name="option" id="item-4" value="4" v-model="picked">
-  </div>
-           
-  
+
+          <div class="d-flex flex-column">
+            <div class="picked d-none">
+              <input type="radio" name="option" id="item-1" value="1" v-model="picked">
+              <input type="radio" name="option" id="item-2" value="2" v-model="picked">
+              <input type="radio" name="option" id="item-3" value="3" v-model="picked">
+              <input type="radio" name="option" id="item-4" value="4" v-model="picked">
+            </div>
+
+
             <div class="cards">
               <label id="selector-1" class="card" for="item-1">
                 <div class="img img-prev img-1 d-flex">
@@ -81,15 +99,7 @@
 
     </b-modal>
   </div>
-  <!--
-  <div>
-    
-    <b-btn v-b-modal="modalId(index)">Launch demo modal</b-btn>
-    <b-modal :id="'modal' + index" title="Bootstrap-Vue">
-      <p clas="my-4">Hello from modal {{ index }}!</p>
-    </b-modal>
-  </div>
--->
+
 
 
 </template>
@@ -106,6 +116,10 @@ export default {
         imgValue: '',
         optionValue: 1
       },
+      imageShow: {
+        scale: 2.0
+      }
+      ,
 
 
 
@@ -127,10 +141,16 @@ export default {
 
 .producto {
   display: flex;
+}
+
+.producto #galeria {
+  display: flex;
   padding: 0.5em;
   margin: 0.5em;
-  width: 100%;
-
+  width: auto;
+  background-color: rgba(0, 0, 0, 0.699);
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .card {
@@ -195,19 +215,40 @@ export default {
   font-size: 1.7em;
 }
 
-.img {
+.container-img {
+
+  height: 300px;
   padding: 0.5em;
   border-radius: 5px;
+  overflow: hidden;
 }
 
-.img {
-  border-radius: 5px;
-
-
-}
 
 .img img:hover {
   transform: scale(0.999999);
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.options {
+  background-color: rgba(25, 24, 24, 0.833);
+  padding: 0.2em;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: black;
+}
+
+.options button {
+  font-weight: 600;
+  padding: 0.2em 0.7em;
+  margin: 0.4em;
+}
+
+.scale {
+  background-color: rgba(35, 35, 133, 0.755);
+  padding: 1em;
+  color: #f2f2f2;
+  font-weight: 700;
+  border-radius: 0.6em;
 }
 </style>
