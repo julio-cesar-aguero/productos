@@ -15,9 +15,9 @@
             <input class="form-control w-25 m-2 p-2 text-center" type="text" placeholder="1" disabled/>
         </div>
         <div class="container-card-options">
-            <b-button>
+            <div class="modal-producto">
                 <ModalVerProducto :index="indice" :producto="item"></ModalVerProducto>
-            </b-button>
+            </div>
             <b-button @click.prevent="agregarCarro(item)" variant="primary">Agregar al carrito</b-button>
         </div>
 
@@ -107,5 +107,13 @@ export default {
 
 .container-card-options button {
     margin: 0.1em;
+}
+.modal-producto{
+    width: 30%;
+    background-color: rgb(45, 46, 46);
+    padding: 0.4em;
+    margin: 0.2em;
+    border-radius: 3px;
+    color: azure;
 }
 </style>

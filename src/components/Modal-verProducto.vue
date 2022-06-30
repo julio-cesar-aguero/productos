@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-btn v-b-modal="'modal-producto-' + index">Ver</b-btn>
+    <div  v-b-modal="'modal-producto-' + index">Ver</div>
     <!-- modal -->
     <b-modal :id="'modal-producto-' + index" size="xl" title="BootstrapVue" hide-header>
       <div class="producto">

@@ -1,6 +1,6 @@
 <template>
   <div>
-     <button class="btn btn-info px-4" @click="() =>{
+     <button class="btn" @click="() =>{
              visible = !(visible)
               
 

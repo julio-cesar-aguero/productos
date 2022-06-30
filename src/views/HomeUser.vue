@@ -23,17 +23,16 @@
         <div class=" container d-flex flex-column justify-content-center align-items-center col-12 rounded">
 
           <h1 class="title">Nuestros Productos</h1>
-          <div>
+          <div class="container-productos">
 
-            <b-card-header header-tag="nav">
-              <b-nav class="nav-tabs">
-                <b-nav-item :active="tab === 1" @click="tab = 1">Más vendidos</b-nav-item>
-                <b-nav-item :active="tab === 2" @click="tab = 2">A - Z</b-nav-item>
-                <b-nav-item :active="tab === 3" @click="tab = 3">Todos</b-nav-item>
+            <b-card-header >
+              <b-nav class="nav-tabs" pills small tabs >
+                <b-nav-item  link-classes="text-dark" class="nav-item text-danger" :active="tab === 1" @click="tab = 1">Más vendidos</b-nav-item>
+                <b-nav-item  link-classes="text-dark" class="nav-item text-danger" :active="tab === 2" @click="tab = 2">A - Z</b-nav-item>
+                <b-nav-item  link-classes="text-dark" class="nav-item text-danger" :active="tab === 3" @click="tab = 3">Precio</b-nav-item>
               </b-nav>
 
-            </b-card-header>
-            
+              </b-card-header>
               <Pagination></Pagination>
             
             <Productos v-if="tab === 1" :tipo="tab" :productos="productos">1</Productos>
@@ -111,6 +110,32 @@ export default {
   flex-wrap: wrap;
   gap: 2em;
   justify-content: center;
+}
+.title{
+  color: rgba(201, 22, 22, 0.692);
+  font-weight: 200;
+}
+.container-productos{
+  transition: all 3s;
+}
+.nav-tabs{
+  
+  display: flex;
+}
+.nav-item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  border: none;
+  
+  color: #f2f2f2;
+}
 
+.nav-item .active{
+  border-radius: 5px;
+  font-weight: 600;
+  background-color: #f2f2f2;
+  color: #000000;
 }
 </style>

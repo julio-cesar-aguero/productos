@@ -1,7 +1,7 @@
 <template>
 
-  <b-navbar toggleable type="secondary" variant="secondary">
-    <b-navbar-brand class="p-4" href="#">Rod Select</b-navbar-brand>
+  <b-navbar toggleable class="navbar">
+    <b-navbar-brand class="title p-4" href="#">Rod Select</b-navbar-brand>
 
     <b-navbar-toggle target="navbar-toggle-collapse">
       <template #default="{ expanded }">
@@ -35,5 +35,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.navbar{
+  background-color: rgba(48, 53, 48, 0.367);
+  font-weight: 300;
+}
+.title{
+  color: aqua;
+  font-weight: 200;
+}
 </style>
