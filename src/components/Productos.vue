@@ -25,7 +25,7 @@
 
 
             <b-card-body class="text-center">
-                <b-row cols="1" cols-md="2" cols-lg="3">
+                <b-row cols="1" cols-md="2" cols-lg="4">
 
                     <b-card-group deck columns class="d-flex" v-for="(productos, index) in sortedArray" :key="index">
 
@@ -41,7 +41,7 @@
         <div class="w-100" v-if="tipo === 3">
 
             <b-card-body class="text-center">
-                <b-row cols="1" cols-md="2" cols-lg="3">
+                <b-row cols="1" cols-md="2" cols-lg="4">
 
                     <b-card-group deck columns class="d-flex" v-for="(productos, index) in sortedArrayPrecio"
                         :key="index">

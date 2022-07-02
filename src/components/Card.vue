@@ -66,6 +66,7 @@ export default {
     width: 100%;
     height: 90%;
     position: relative;
+    background-color: #f8efed10;
     border: 1px solid rgba(0, 0, 0, 0.158);
     border-radius: 10px;
     margin: 1em 0;
@@ -80,6 +81,7 @@ export default {
 .producto:hover{
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transform: scale(0.9899999);
+    background-color: #f8efed;
 }
 
 .img img {
@@ -91,7 +93,7 @@ export default {
 .card-precio {
     font-weight: 600;
     font-size: 1.2em;
-    color: rgba(255, 95, 95, 0.97);
+    color: #bf033b;
 }
 .card-stock{
     display: flex;

@@ -1,35 +1,24 @@
 <template>
-  <b-row class="justify-content-md-center" align-v="stretch">
-    <div id="user-view" class="container col-12">
-      <Carrusel class="w-100"></Carrusel>
-      <b-col sm="8" md="4" xl="3">
-        <div header="carrito-vacio" class="
-          border
-          bg-dark
-          carrito-area
-          col-12
-          d-flex
-          flex-row
-          p-1
-          text-white
-          rounded
-          h-10
-        " v-if="carro.length === 0">
-          <h2>Carrito Vacio</h2>
-        </div>
-        <Carrito v-else></Carrito>
-      </b-col>
-      <b-col xl="8" class="">
+  <b-row class="col-12" align-v="stretch">
+    <div id="carrusel" class="col-12">
+        <Carrusel class="w-50"></Carrusel>
+        <Carrusel class="w-50"></Carrusel>
+      </div>
+    <div id="user-view" class="container col-12 ">
+      
+      
+     
+      <b-col xl="12" class="col-12">
         <div class=" container d-flex flex-column justify-content-center align-items-center col-12 rounded">
 
           <h1 class="title">Nuestros Productos</h1>
-          <div class="container-productos">
+          <div class="container-productos col-12">
 
             <b-card-header >
-              <b-nav class="nav-tabs" pills small tabs >
-                <b-nav-item  link-classes="text-dark" class="nav-item text-danger" :active="tab === 1" @click="tab = 1">Más vendidos</b-nav-item>
-                <b-nav-item  link-classes="text-dark" class="nav-item text-danger" :active="tab === 2" @click="tab = 2">A - Z</b-nav-item>
-                <b-nav-item  link-classes="text-dark" class="nav-item text-danger" :active="tab === 3" @click="tab = 3">Precio</b-nav-item>
+              <b-nav class="nav-tabs" pills small tabs justified>
+                <b-nav-item  link-classes="text-white" class="nav-item text-danger" :active="tab === 1" @click="tab = 1">Más vendidos</b-nav-item>
+                <b-nav-item  link-classes="text-white" class="nav-item text-danger" :active="tab === 2" @click="tab = 2">A - Z</b-nav-item>
+                <b-nav-item  link-classes="text-white" class="nav-item text-danger" :active="tab === 3" @click="tab = 3">Precio</b-nav-item>
               </b-nav>
 
               </b-card-header>
@@ -104,38 +93,60 @@ export default {
 
 <style scoped>
 #user-view {
-  background-color: #f2f2f2;
+  background-color: #c3daed;
 
   display: flex;
   flex-wrap: wrap;
-  gap: 2em;
+  gap: 0.2em;
   justify-content: center;
 }
+#carrusel{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 300px;
+  color: #f2f2f2;
+  background-color:#75524e;
+  
+  
+}
 .title{
-  color: rgba(201, 22, 22, 0.692);
-  font-weight: 200;
+  
+  color: #2e2322;
+  font-weight: 300;
+  font-style: italic;
 }
 .container-productos{
+  background-color: #f8efed63;
   transition: all 3s;
 }
-.nav-tabs{
-  
+.card-header li a{
+  background-color: #241c1c97;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #060606;
+  
 }
 .nav-item{
   display: flex;
   justify-content: center;
   align-items: center;
-  
+  font-weight: 300;
   border: none;
-  
+  border-radius: 18px;
+  padding: 0.5em;
   color: #f2f2f2;
+  overflow: hidden;
 }
 
 .nav-item .active{
-  border-radius: 5px;
+  border-radius: 10px;
   font-weight: 600;
-  background-color: #f2f2f2;
-  color: #000000;
+  background-color: #75524e;
+  color: #dad3d3;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transform: scale(0.9);
 }
 </style>

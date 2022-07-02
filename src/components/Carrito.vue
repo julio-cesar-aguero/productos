@@ -9,7 +9,7 @@
       rounded
       h-50
     ">
-    <div class="bg-secondary rounded col-12 text-dark d-flex flex-column">
+    <div class="rounded col-12 text-dark d-flex flex-column">
       <div class="container d-flex flex-column justify-content-between my-1">
         <div class="
             col-12
@@ -20,7 +20,6 @@
             infCompra
             justify-content-start
             align-items-start
-            bg-dark
             text-white
           ">
           <small>Cantidad: {{ totalCantidad }}</small>
@@ -28,23 +27,18 @@
           <h4>Total: {{ totalPrecio }}</h4>
         </div>
         <div class="
-            button
-            d-flex
-            flex-column
-            justify-content-center
-            align-items-center
-            btn btn-prim
-            ary
+            buttons-gen
+            
           ">
-          <button class="btn btn-warning m-1" @click="vaciarCarro">Vaciar Carrito</button>
-          <ModalVenta class="btn btn-danger m-1 " :class="totalCantidad > 0 ? '' : 'disabled'"></ModalVenta>
+          <button class="button-gen-a btn" @click="vaciarCarro">Vaciar Carrito</button>
+          <ModalVenta class="button-gen-b" :class="totalCantidad > 0 ? '' : 'disabled'"></ModalVenta>
         </div>
       </div>
     </div>
     <b-col v-for="(item, index) in carro" :key="index" class="col-12 text-dark">
       <div class="w-100 producto p-1">
         <b-card id="card" >
-          <div class="d-flex justify-content-around contenido p-4">
+          <div class="d-flex justify-content-around contenido p-1">
             <div class="
                 inf
                 col-12
@@ -53,21 +47,21 @@
                 justify-content-between
               ">
               <b-card-text>
-                <p>{{ item.name }}</p>
+                <p id="name-item">{{ item.name }}</p>
               </b-card-text>
             </div>
             <div class="rigth d-flex flex-column">
               <div class="options col-12">
-                <b-button class="w-100" @click.prevent="quitarCarro(item.id)" variant="danger">
+                <b-button class="btn-quitar w-100" @click.prevent="quitarCarro(item.id)" >
                   X
                 </b-button>
               </div>
             </div>
           </div>
-          <span>Cantidad:</span>
+          <span id="cantidad-item">Cantidad:</span>
           <div class="precio m-2 d-flex justify-content-center pb-1">
             <button class="
-                btn btn-success
+                btn-min
                 rounded
                 col-2
                 w-20
@@ -83,7 +77,7 @@
             </div>
 
             <button class="
-                btn btn-success
+                btn-max
                 rounded
                 col-2
                 w-40
@@ -156,11 +150,46 @@ export default {
 <style scoped>
 /*Estilos contenedor carrito*/
 #carrito{
-  background-color: rgba(0, 0, 0, 0.164);
+  background-color: #2e2322;
+  color: #2091d8;
+}
+.infCompra small{
+  color: #f8efed;
+  font-weight: 700;
+}
+.infCompra h4{
+  color: #ebebeb;
 }
 /* Estilos de tarjeta de productos del carrito*/
 #card{
-  background-color: #f2f2f2ee;
+  background-color: #c3daed;
+}
+#name-item{
+  color: #2e2322;
+  font-weight: 800;
+}
+#cantidad-item{
+  font-weight: 400;
+}
+.buttons-gen{
+  background-color: #2091d8;
+  display: flex;
+  padding: 1em;
+}
+.button-gen-a, .button-gen-b{
+margin: 0.5em;
+}
+.button-gen-a{
+  background-color: #f8efed;
+  
+}
+.btn-min,
+.btn-max{
+  background-color: #f1632a;
+}
+
+.btn-quitar{
+  color: #f1632a;
 }
 #card:hover{
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
