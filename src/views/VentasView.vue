@@ -1,6 +1,8 @@
 <template>
   <div class="venta-view">
-    <h1>Vista Ventas</h1>
+    <div>
+      <h1>Vista Ventas</h1>
+    </div> 
     <b-card-header header-tag="nav">
       <b-nav class="nav-tabs">
         <b-nav-item :active="tab === 1" @click="tab = 1">Más vendidos</b-nav-item>

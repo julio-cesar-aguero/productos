@@ -1,7 +1,7 @@
 <template>
     <div class="producto" >
         <div class="img ">
-            <img :src="'http://localhost:5010/img/productos/' + item.imgProducto">
+            <img :src="'http://localhost:5010/img/productos/'+item.folderfile+'/'+ item.imgProducto[0]">
         </div>
         <div class="title">
             {{ item.name }}

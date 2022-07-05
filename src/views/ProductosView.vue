@@ -44,8 +44,10 @@
       <input
         class="form-control w-75"
         type="file"
+        multiple
         @change="handleFileUpload($event)"
       />
+     
 
       <button class="btn btn-primary w-25 m-2 p-2" @click.prevent="agregarProducto">
         Agregar
@@ -223,8 +225,8 @@ export default {
       "cerrarSesion",
     ]),
     handleFileUpload(e) {
-      this.producto.imgProducto = e.target.files[0];
-      
+      this.producto.imgProducto = e.target.files;
+      console.log("files",this.producto.imgProducto);
     },
     showModal(index) {
       console.log("modal", index);

@@ -7,15 +7,15 @@
       </div>
     </div>
 
-    <b-sidebar id="sidebar-backdrop" title="Sidebar with backdrop" :backdrop-variant="variant" backdrop shadow hide-header>
+    <b-sidebar id="sidebar-backdrop"    no-header-close backdrop shadow hide-header>
       <b-col sm="12" md="12" xl="12">
         <div header="carrito-vacio" class="
           border
           carrito-area
-          
+          bg-dark
           d-flex
           flex-row
-          p-1
+          p-5
           text-white
           rounded
           h-10
@@ -43,6 +43,12 @@ components:{
 </script>
 
 <style scoped>
+#sidebar-backdrop{
+   background-color: blue;
+}
+.carrito-area{
+  background-color: blue;
+}
 .cart{
   background-color: #22222216;
   position: relative;

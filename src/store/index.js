@@ -218,7 +218,13 @@ export default new Vuex.Store({
       formdata.append("name", producto.name);
       formdata.append("description", producto.description);
       formdata.append("precio", producto.precio);
-      formdata.append("imgProducto", producto.imgProducto);
+
+      for(let i = 0; i < producto.imgProducto.length; i++){
+        formdata.append("imgProducto",producto.imgProducto[i],producto.imgProducto[i].name);
+        
+      }
+      
+      
 
       var requestOptions = {
         method: "POST",
