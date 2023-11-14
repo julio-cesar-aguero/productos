@@ -7,18 +7,10 @@
       </div>
     </div>
 
-    <b-sidebar id="sidebar-backdrop"    no-header-close backdrop shadow hide-header>
-      <b-col sm="12" md="12" xl="12">
+    <b-sidebar id="sidebar-backdrop" width="50%" bg-variant="dark" text-variant="light" no-header-close backdrop shadow hide-header>
+      <b-col >
         <div header="carrito-vacio" class="
-          border
-          carrito-area
-          bg-dark
-          d-flex
-          flex-row
-          p-5
-          text-white
-          rounded
-          h-10
+carrito-area
         " v-if="carro.length === 0">
           <h2>Carrito Vacio</h2>
         </div>
@@ -47,15 +39,19 @@ components:{
    background-color: blue;
 }
 .carrito-area{
-  background-color: blue;
+  background-color: #395b6458;
+  display: flex;
+  
+  
+  padding: 4em;
 }
 .cart{
   background-color: #22222216;
   position: relative;
-  width: 55px;
+  width: 45px;
   margin-right: 100px;
-  border-radius: 50%;
-  color: #f2f2f2;
+  border-radius: 40%;
+  color: #1f1919;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,7 +66,7 @@ components:{
   border-radius: 50%;
 }
 .cart small{
-  color: #f2f2f2;
+  color: #1a1a1a;
   width: 100%;
   height: 100%;
   font-size: 0.90000001em;

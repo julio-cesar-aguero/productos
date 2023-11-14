@@ -29,17 +29,25 @@ export default {
   font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
+  text-align: center;color: rgb(0, 0, 0);
+    text-shadow: 10px 10px 25px rgba(0, 0, 0, 0.525),
+    -10px 10px 25px rgba(255, 255, 255, 0.406),
+    -10px -10px 25px rgba(253, 253, 253, 0.353),
+    10px -10px 25px rgba(255, 255, 255, 0.293);
+    line-height: 1.5;
+  }
+  h1:hover,h2:hover{
+    filter: brightness(0.7);
+    transform: scale(1.0055);
+    transition: 700ms;
+  }
 nav {
   padding: 30px;
 }
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  
 }
 
 nav a.router-link-exact-active {

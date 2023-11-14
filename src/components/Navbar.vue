@@ -1,7 +1,7 @@
 <template>
   <b-navbar toggleable class="navbar d-flex" fill sticky>
-    <b-navbar-brand href="#">
-      NavBar
+    <b-navbar-brand href="/login">
+      <div id="logo-container"><img src="../assets/rodselect.png" alt=""></div>
     </b-navbar-brand>
     <div class="d-flex align-items-center">
       <b-navbar-form toggleable>
@@ -16,9 +16,7 @@
     </div>
     <b-collapse id="navbar-toggle-collapse" is-nav>
       <b-navbar-nav class="ml-auto">
-        <b-nav-item href="#">Link 1</b-nav-item>
-        <b-nav-item href="#">Link 2</b-nav-item>
-        <b-nav-item href="#" disabled>Disabled</b-nav-item>
+        <b-nav-item href="#">Cerrar Sesión</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -44,15 +42,23 @@ export default {
 
 <style scoped>
 .navbar {
-  background-color: #2091d8;
+  background-color: #E7F6F2;
   font-weight: 300;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
+#logo-container{
+  width: 100px;
+  height: 60px;
+}
+#logo-container img{
+  width: 100%;
+  height: 100%;
+}
 
 .title {
-  color: aqua;
+  color: #395B64;
   font-weight: 200;
 }
 </style>

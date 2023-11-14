@@ -40,6 +40,16 @@
         required
         minlength="1"
       />
+      <input
+        class="form-control w-75 m-2 p-2"
+        type="text"
+        placeholder="Precio venta"
+        v-model="producto.preciodeventa"
+        autofocus
+        required
+        disbaled
+        minlength="1"
+      />
 
       <input
         class="form-control w-75"
@@ -150,7 +160,7 @@
         </div>
 
         <div class="col-3 w-5 h-5 rounded-circle">
-          <img class="w-5 h-5 rounded-circle" width="80" height="80" v-bind:src="'http://localhost:5010/img/productos/' + item.imgProducto" alt="imagen de producto">
+          <img class="w-5 h-5 rounded-circle" width="80" height="80" v-bind:src="'http://localhost:3000/images/productos/' + item.folderfile +'/'+item.imgProducto" alt="imagen de producto">
           
         </div>
         <div class="col-1">
@@ -246,7 +256,7 @@ export default {
       //console.log("es vacio ?",.isEmptyObject())
       try {
         
-        if (!this.producto) return new error();
+        if (!this.producto) {return new error();}
         console.log("imagen frontend");
 
         this.nuevoProducto(this.producto)

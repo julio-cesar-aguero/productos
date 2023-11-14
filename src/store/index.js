@@ -87,12 +87,18 @@ export default new Vuex.Store({
         0
       );
     },
-    totalPrecio(state) {
-      return Object.values(state.carro).reduce(
-        (acc, { cantidad, precio }) => acc + cantidad * precio,
+    totalUtilidad(state) {
+      return Object.values(state.ventas.productos).reduce(
+        (acc, { utilidad }) => acc + utilidad,
         0
       );
     },
+    totalPrecio(state){
+      return Object.values(state.carro).reduce(
+        (acc, { cantidad, preciodeventa }) => acc + cantidad * preciodeventa,
+        0
+      );
+    }
   },
   actions: {
     //user
@@ -126,7 +132,7 @@ export default new Vuex.Store({
 
     async login({ commit }, usuario) {
       //try {
-      const res = await fetch("http://localhost:5010/api/user/login", {
+      const res = await fetch("http://localhost:3000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,6 +142,7 @@ export default new Vuex.Store({
 
       const resDB = await res.json();
       commit("setUser", resDB.name);
+      
       try {
         //console.log(resDB);
         if (!resDB) {
@@ -182,7 +189,7 @@ export default new Vuex.Store({
 
     async datosProtegidos({ commit }) {
       try {
-        const res = await fetch("http://localhost:5010/api/admin/", {
+        const res = await fetch("http://localhost:3000/api/admin/", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -214,10 +221,12 @@ export default new Vuex.Store({
       myHeaders.append("auth-token", localStorage.getItem("token"));
 
       var formdata = new FormData();
+      
 
       formdata.append("name", producto.name);
       formdata.append("description", producto.description);
       formdata.append("precio", producto.precio);
+      formdata.append("preciodeventa", producto.preciodeventa);
 
       for(let i = 0; i < producto.imgProducto.length; i++){
         formdata.append("imgProducto",producto.imgProducto[i],producto.imgProducto[i].name);
@@ -233,13 +242,15 @@ export default new Vuex.Store({
         redirect: "follow",
       };
 
-      fetch("http://localhost:5010/api/admin/nuevo-producto/", requestOptions)
+      fetch("http://localhost:3000/api/admin/nuevo-producto", requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result.error === null) {
             
             commit("setProducto", result.data[0]);
 
+          }else{
+            console.log('No se puede registrar')
           }
         })
         .catch((error) => console.log("error", error));
@@ -250,7 +261,7 @@ export default new Vuex.Store({
     async eliminarProducto({ commit }, ids) {
       try {
         const res = await fetch(
-          "http://localhost:5010/api/admin/eliminar/" + ids.id,
+          "http://localhost:3000/api/admin/eliminar/" + ids.id,
           {
             method: "DELETE",
             headers: {
@@ -291,7 +302,7 @@ export default new Vuex.Store({
       console.log("Vuex data", productoUpdate);
       try {
         const res = await fetch(
-          "http://localhost:5010/api/admin/editar/" + productoUpdate.id,
+          "http://localhost:3000/api/admin/editar/" + productoUpdate.id,
           {
             method: "PUT",
             headers: {
@@ -315,7 +326,7 @@ export default new Vuex.Store({
     },
     async leerVentas({ commit }) {
       try {
-        const res = await fetch("http://localhost:5010/api/user-ventas/", {
+        const res = await fetch("http://localhost:3000/api/user/", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -334,8 +345,9 @@ export default new Vuex.Store({
       }
     },
     async nuevaVenta({ commit }, venta) {
+      console.log(venta)
       try {
-        const res = await fetch("http://localhost:5010/api/user-ventas/nueva-venta/", {
+        const res = await fetch("http://localhost:3000/api/user/nueva-venta", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -344,8 +356,16 @@ export default new Vuex.Store({
           body: JSON.stringify(venta),
         });
         const respuesta = await res.json();
+        if(respuesta.status != 200){
+          throw new Error('No se puede realizar la venta')
+        }
+        commit("vaciarCarrito")
+        res.json({msg: 'Venta realizada'})
 
       } catch (error) {
+        res.json({
+          error
+        })
 
       }
     }

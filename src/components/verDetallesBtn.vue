@@ -14,6 +14,8 @@
                       <input disabled class="form-control w-35  p-1 m-1 bg-dark text-white" value="Nombre:">
                       <input disabled class="form-control w-25  p-1 m-1 bg-dark text-white" value="Cantidad:">
                       <input disabled class="form-control w-25  p-1 m-1 bg-dark text-white" value="Costo Unitario">
+                      <input disabled class="form-control w-25  p-1 m-1 bg-dark text-white" value="Precio venta:">
+                      <input disabled class="form-control w-25  p-1 m-1 bg-dark text-white" value="Utilidad:">
                     </div>
                     
                     <div class="collapse productos d-flex overflow-auto px-1 h-50 w-100 justify-content-between"
@@ -21,6 +23,8 @@
                       <input class="form-control w-35  p-1 m-1" type="text" :value="producto.name" disabled>
                       <input class="form-control w-25  p-1 m-1" type="text" :value="producto.cantidad" disabled>
                       <input class="form-control w-25  p-1 m-1" type="text" :value="producto.precio" disabled>
+                      <input class="form-control w-25  p-1 m-1" type="text" :value="producto.preciodeventa" disabled></input>
+                        <input class="form-control w-25  p-1 m-1" type="text" :value="producto.utilidad" disabled>
                     </div>
                   </b-card>
                 </b-collapse>

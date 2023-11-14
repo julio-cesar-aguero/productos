@@ -1,79 +1,34 @@
 <template>
   <div>
-    <div  v-b-modal="'modal-producto-' + index">Ver</div>
+    <div class="bg-warning btn" v-b-modal="'modal-producto-'">Generar Reporte</div>
     <!-- modal -->
-    <b-modal :id="'modal-producto-' + index" size="xl" title="BootstrapVue" hide-header>
-      <div class="producto">
-        <!-- detalles -->
-        <div class="detalles-producto w-30">
-          <h3 class="name text-center">{{ producto.name }}</h3>
-          <div class="container-description">
-            <span class="description">{{ producto.description }}</span>
-          </div>
-
-          <div class="cantidad">
-            <small><b>Disponible:</b></small>
-            <input class="form-control w-25 m-2 p-3 text-center" type="text" placeholder="1" disabled />
-          </div>
-          <h4 class="title">$ {{ producto.precio }}</h4>
-
-        </div>
-        <!-- galeria de imagenes -->
-        <div id="galeria" class="d-flex ">
-
-
-          <!--  <img src="https://picsum.photos/500/300" alt="">
-            <small>{{ picked }}</small> -->
-          <div class="img  d-flex text-white">
-            <div id="container-img" style="width: 550px">
-              <zoom-on-hover class="w-100" :img-normal="'http://localhost:5010/img/productos/' + producto.folderfile+'/'+producto.imgProducto[picked]"
-                :img-zoom="'http://localhost:5010/img/productos/' + producto.folderfile+'/'+producto.imgProducto[picked]" :scale="imageShow.scale"
-                @loaded="imageShow.scale" @resized="imageShow.scale"></zoom-on-hover>
-              <!-- 
-<div class="options">
-                <button class="btn btn-light">-</button>
-                <div class="scale">
-                  <select name="select" v-model="imageShow.scale">
-                    <option value="1.0">escala 1.0</option>
-                    <option value="2.0" selected>escala 2.0</option>
-                    <option value="3.0">escala 3</option>
-                  </select>
-                </div>
-                <button class="btn btn-light">+</button>
-              </div>
-               -->
-
+    <b-modal :id="'modal-producto-'" size="xl" title="BootstrapVue" hide-header>
+      <div class="producto d-flex flex-column">
+        <div id="app">
+          <div id="menu" class="bg-danger">
+            <h3>Generar Reporte</h3>
+            <div class="p-2 ">
+              <ul style="text-align:left">
+                <li>Selecciona una fecha</li>
+                <li>Descargue el documento</li>
+              </ul>
             </div>
-
-
-
-
+          </div>
+          <div class="np-btn">
+          <button class="btn btn-danger" @click="generatePDF()">Descargar PDF</button>
           </div>
 
-          <div class="d-flex flex-column" >
-            <div class="picked d-none"  v-for="(img,index) of producto.imgProducto" :key="index">
-              <input type="radio" name="option" :id="'item'+index" :value="index" v-model="picked">
-            </div>
-
-
-            <div class="cards"  v-for="(img,index) of producto.imgProducto" :key="index">
-            
-              <label :id="'selector'+index" class="card" :for="'item'+index">
-                <div class="img img-prev d-flex" :class="'img'+index">
-                  <img :src="'http://localhost:5010/img/productos/' + producto.folderfile+'/'+producto.imgProducto[index]" alt="">
-                </div>
-              </label>
-              
-
-
-            </div>
-
-
-
+          <vue-html2pdf :show-layout="false" :float-layout="true" :enable-download="true" :preview-modal="false"
+            :paginate-elements-by-height="1400" filename="nightprogrammerpdf" :pdf-quality="5"
+            :manual-pagination="false" pdf-format="a4" :pdf-margin="20" pdf-orientation="portrait"
+            pdf-content-width="800px" @progress="onProgress($event)" ref="html2Pdf">
+            <section slot="pdf-content">
+              <ContentToPrint />
+            </section>
+          </vue-html2pdf>
+          <div>
+            <ContentToPrint />
           </div>
-
-
-
         </div>
 
 
@@ -87,12 +42,25 @@
 </template>
 
 <script>
+import VueHtml2pdf from "vue-html2pdf";
+import ContentToPrint from "./ContentToPrint";
 import { mapState, mapActions, mapGetters } from "vuex";
-
+import jspdf from 'jspdf'
 
 export default {
   data() {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    // 15th two months prior
+    const minDate = new Date(today)
+
+    // 15th in two months
+    const maxDate = new Date(today)
+
     return {
+      value: '',
+      min: minDate,
+      max: maxDate,
       picked: 0,
       selectImg: {
         imgValue: '',
@@ -102,135 +70,74 @@ export default {
         scale: 2.0
       }
       ,
-
-
-
-
     }
+
   },
+  methods: {
+
+    /* 
+        Generate Report using refs and calling the 
+        refs function generatePdf() 
+    */
+    download() {
+      alert('hi')
+      let pdfName = 'test';
+      var doc = new jspdf();
+      doc.text("Hello World", 10, 10);
+      doc.save(pdfName + '.pdf')
+    },
+    generateReport() {
+
+      this.$refs.html2Pdf.generatePdf()
+    },
+    onProgress(event) {
+      console.log(`Processed: ${event} / 100`);
+    },
+    hasGenerated() {
+      alert("PDF generated successfully!");
+    },
+    generatePDF() {
+      this.$refs.html2Pdf.generatePdf();
+    },
+  },
+
+
+  components: {
+
+     VueHtml2pdf,
+    ContentToPrint,
+
+  },
+
 
 
   props: ["index", "producto"],
 };
 </script>
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@100;200;300;400;500;600;700;800&display=swap');
-
-* {
-  font-family: 'Anek Malayalam', sans-serif;
-  font-weight: 400;
-}
-
-.producto {
+.container {
   display: flex;
-}
-
-.producto #galeria {
-  display: flex;
-  padding: 0.5em;
-  margin: 0.5em;
-  width: auto;
-  background-color: rgba(0, 0, 0, 0.699);
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.card {
-  margin: 0.2em;
-  transform-style: preserve-3d;
-  cursor: pointer;
-}
-
-.img-prev {
-  width: 90px;
-  height: 90px;
-
-
-}
-
-#item-1:checked~.cards #selector-1 {
-  outline: 2px solid rgba(12, 12, 207, 0.611);
-}
-
-#item-2:checked~.cards #selector-2 {
-  outline: 2px solid rgba(12, 12, 207, 0.611);
-}
-
-#item-3:checked~.cards #selector-3 {
-  outline: 2px solid rgba(12, 12, 207, 0.611);
-}
-
-#item-4:checked~.cards #selector-4 {
-  outline: 2px solid rgba(12, 12, 207, 0.611);
-}
-
-.detalles-producto {
-  width: 40%;
-  padding: 1em;
-}
-
-.name,
-.description,
-.title {
-  padding: 0.6em;
-  font-size: 1.1em;
-  color: rgba(19, 12, 12, 0.9);
-}
-
-.cantidad {
-  display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
-  margin: 0.7em;
+  padding: 2em;
+  height: auto;
+  z-index: 10;
 }
 
-.container-description {
-  font-weight: 400;
-  font-size: 0.8em;
-  padding: 1.1em;
-  margin: 0.6em;
-  border: 1px solid rgba(0, 0, 0, 0.297);
-  border-radius: 5px;
-}
-
-.title {
-  font-size: 1.7em;
-}
-
-.container-img {
-
-  height: 300px;
-  padding: 0.5em;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-
-.img img:hover {
-  transform: scale(0.999999);
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}
-
-.options {
-  background-color: rgba(25, 24, 24, 0.833);
-  padding: 0.2em;
+#pdf-container {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  color: black;
+  flex-direction: column;
+  width: 50%;
+  height: 400px;
 }
 
-.options button {
-  font-weight: 600;
-  padding: 0.2em 0.7em;
-  margin: 0.4em;
+.view-pdf {
+  width: 100%;
+  height: 80%;
 }
-
-.scale {
-  background-color: rgba(35, 35, 133, 0.755);
-  padding: 1em;
-  color: #f2f2f2;
-  font-weight: 700;
-  border-radius: 0.6em;
+#menu{
+  padding: 0.6em 2.4em;
+  border-radius: 3px;
+  margin-bottom: 60px;
 }
 </style>

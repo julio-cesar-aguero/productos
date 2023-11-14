@@ -1,35 +1,12 @@
 <template>
-  <div id="carrito" header="carrito" class="
-      border
-      carrito-area
-      col-12
-      d-flex
-      flex-column
-      text-white
-      rounded
-      h-50
-    ">
-    <div class="rounded col-12 text-dark d-flex flex-column">
-      <div class="container d-flex flex-column justify-content-between my-1">
-        <div class="
-            col-12
-            d-flex
-            flex-column
-            p-4
-            rounded
-            infCompra
-            justify-content-start
-            align-items-start
-            text-white
-          ">
+  <div id="carrito" header="carrito" >
+    <div class="carrito-menu">
+      <div class="carrito-opciones">
+        <div>
           <small>Cantidad: {{ totalCantidad }}</small>
-
           <h4>Total: {{ totalPrecio }}</h4>
         </div>
-        <div class="
-            buttons-gen
-            
-          ">
+        <div class="buttons-gen">
           <button class="button-gen-a btn" @click="vaciarCarro">Vaciar Carrito</button>
           <ModalVenta class="button-gen-b" :class="totalCantidad > 0 ? '' : 'disabled'"></ModalVenta>
         </div>
@@ -44,10 +21,12 @@
                 col-12
                 d-flex
                 align-items-center
-                justify-content-between
+                justify-content-center
+                p-2
               ">
               <b-card-text>
                 <p id="name-item">{{ item.name }}</p>
+                <textarea v-model="item.description" disabled id="description-item"></textarea>
               </b-card-text>
             </div>
             <div class="rigth d-flex flex-column">
@@ -59,7 +38,7 @@
             </div>
           </div>
           <span id="cantidad-item">Cantidad:</span>
-          <div class="precio m-2 d-flex justify-content-center pb-1">
+          <div class="precio m-0 d-flex justify-content-center pb-1">
             <button class="
                 btn-min
                 rounded
@@ -89,15 +68,16 @@
               +
             </button>
           </div>
-          <div class="col-12 rounded d-flex flex-row justify-content-around">
+          <div class="precio-item col-12 rounded d-flex flex-row justify-content-around">
+            
             <div class="precio">
-              <p>Precio: {{ item.precio }}</p>
+              <p>Precio: {{ item.preciodeventa }}</p>
             </div>
 
             <div class="precio">
               <h2>Total:</h2>
               <h4 class="font-weight-bold text-monospace">
-                ${{ item.cantidad * item.precio }}
+                ${{ item.cantidad * item.preciodeventa }}
               </h4>
             </div>
           </div>
@@ -133,12 +113,14 @@ export default {
     }
     ,
     agregarCarro(item) {
-      //console.log(item)
+      console.log(item)
       const articulo = {
         id: item._id,
         name: item.name,
         cantidad: 1,
         precio: item.precio,
+        utilidad: item.utilidad
+       
       };
       this.agregarCarrito(articulo);
     },
@@ -150,8 +132,19 @@ export default {
 <style scoped>
 /*Estilos contenedor carrito*/
 #carrito{
-  background-color: #2e2322;
-  color: #2091d8;
+  width: 100%;
+  font-weight: 700;
+  background-color: #e7ebebb2;
+  color: #E7F6F2;
+  display: flex;
+  flex-direction: column;
+}
+.carrito-menu{
+  width: 100%;
+  background-color: #e7f6f22c;
+}
+.carrito-opciones{
+  background-color: #395B64;
 }
 .infCompra small{
   color: #f8efed;
@@ -162,30 +155,38 @@ export default {
 }
 /* Estilos de tarjeta de productos del carrito*/
 #card{
-  background-color: #c3daed;
+  background-color: #E7F6F2;
 }
 #name-item{
-  color: #2e2322;
-  font-weight: 800;
+  color: #2C3333;
+  font-weight: 500;
+}
+#description-item{
+resize: none;
+width: 100%;
 }
 #cantidad-item{
   font-weight: 400;
 }
+.precio-item{
+  background-color: #A5C9CA;
+}
 .buttons-gen{
-  background-color: #2091d8;
+  background-color: #e7f6f212;
   display: flex;
+  justify-content: center;
   padding: 1em;
 }
 .button-gen-a, .button-gen-b{
 margin: 0.5em;
 }
 .button-gen-a{
-  background-color: #f8efed;
+  background-color: #f8efed53;
   
 }
 .btn-min,
 .btn-max{
-  background-color: #f1632a;
+  background-color: #395B64;
 }
 
 .btn-quitar{

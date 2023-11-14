@@ -5,7 +5,7 @@
     <b-modal :id="'modal-producto-' + index" size="xl" title="BootstrapVue" hide-header>
       <div class="producto">
         <!-- detalles -->
-        <div class="detalles-producto w-30">
+        <div class="detalles-producto">
           <h3 class="name text-center">{{ producto.name }}</h3>
           <div class="container-description">
             <span class="description">{{ producto.description }}</span>
@@ -19,15 +19,15 @@
 
         </div>
         <!-- galeria de imagenes -->
-        <div id="galeria" class="d-flex ">
+        <div id="galeria" class="d-flex w-60">
 
 
           <!--  <img src="https://picsum.photos/500/300" alt="">
             <small>{{ picked }}</small> -->
-          <div class="img  d-flex text-white">
-            <div id="container-img" style="width: 550px">
-              <zoom-on-hover class="w-100" :img-normal="'http://localhost:5010/img/productos/' + producto.folderfile+'/'+producto.imgProducto[picked]"
-                :img-zoom="'http://localhost:5010/img/productos/' + producto.folderfile+'/'+producto.imgProducto[picked]" :scale="imageShow.scale"
+          <div id="img" class="d-flex text-white">
+            <div id="container-img" style="width: 600px">
+              <zoom-on-hover  :img-normal="'http://localhost:3000/images/productos/' + producto.folderfile+'/'+producto.imgProducto[picked]"
+                :img-zoom="'http://localhost:3000/images/productos/' + producto.folderfile+'/'+producto.imgProducto[picked]" :scale="imageShow.scale"
                 @loaded="imageShow.scale" @resized="imageShow.scale"></zoom-on-hover>
               <!-- 
 <div class="options">
@@ -50,7 +50,7 @@
 
           </div>
 
-          <div class="d-flex flex-column" >
+          <div class="container-cards" >
             <div class="picked d-none"  v-for="(img,index) of producto.imgProducto" :key="index">
               <input type="radio" name="option" :id="'item'+index" :value="index" v-model="picked">
             </div>
@@ -59,8 +59,8 @@
             <div class="cards"  v-for="(img,index) of producto.imgProducto" :key="index">
             
               <label :id="'selector'+index" class="card" :for="'item'+index">
-                <div class="img img-prev d-flex" :class="'img'+index">
-                  <img :src="'http://localhost:5010/img/productos/' + producto.folderfile+'/'+producto.imgProducto[index]" alt="">
+                <div class="img-prev d-flex" :class="'img'+index">
+                  <img :src="'http://localhost:3000/images/productos/' + producto.folderfile+'/'+producto.imgProducto[index]" alt="">
                 </div>
               </label>
               
@@ -99,7 +99,7 @@ export default {
         optionValue: 1
       },
       imageShow: {
-        scale: 2.0
+        scale: 3.5
       }
       ,
 
@@ -126,26 +126,47 @@ export default {
 }
 
 .producto #galeria {
+  position: relative;
   display: flex;
   padding: 0.5em;
   margin: 0.5em;
-  width: auto;
-  background-color: rgba(0, 0, 0, 0.699);
+  width: 90%;
+  height: 70vh;
+  background-color: rgba(210, 203, 203, 0.264);
   border-radius: 5px;
   overflow: hidden;
 }
-
+.container-cards
+{
+  
+  width: 20%;
+  padding: 0.2em;
+  
+  overflow-y: auto;
+}
+.cards{
+  width: 100%;
+  margin-right: 0.5em;
+}
 .card {
-  margin: 0.2em;
+  width: 90%;
+  margin: 0.3em;
   transform-style: preserve-3d;
   cursor: pointer;
 }
 
 .img-prev {
-  width: 90px;
-  height: 90px;
-
-
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.img-prev img{
+  width: 80px;
+  height: 80px;
 }
 
 #item-1:checked~.cards #selector-1 {
@@ -198,15 +219,25 @@ export default {
 }
 
 .container-img {
-
+  width: 50%;
   height: 300px;
   padding: 0.5em;
   border-radius: 5px;
   overflow: hidden;
 }
 
-
-.img img:hover {
+#img{
+  width: 85%;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#img img{
+  width: 100%;
+  image-resolution: auto;
+}
+#img img:hover {
   transform: scale(0.999999);
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
